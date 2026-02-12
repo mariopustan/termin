@@ -1,0 +1,141 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.confirmation {
+  @include container;
+  max-width: 600px;
+  padding-top: $spacing-3xl;
+  padding-bottom: $spacing-3xl;
+  text-align: center;
+
+  &__title {
+    font-size: $font-size-2xl;
+    font-weight: 700;
+    color: $color-text-primary;
+    margin-bottom: $spacing-md;
+  }
+
+  &__subtitle {
+    font-size: $font-size-base;
+    color: $color-text-secondary;
+    margin-bottom: $spacing-xl;
+    line-height: 1.6;
+  }
+}
+
+// Success Icon
+.success-icon {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: rgba($color-success, 0.15);
+  border: 2px solid $color-success;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto $spacing-lg;
+  animation: scaleIn 0.5s $easing-default;
+
+  svg {
+    width: 40px;
+    height: 40px;
+    color: $color-success;
+  }
+}
+
+@keyframes scaleIn {
+  0% { transform: scale(0); opacity: 0; }
+  60% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@include reduced-motion {
+  .success-icon {
+    animation: none;
+  }
+}
+
+// Details Card
+.details-card {
+  @include glass-card;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-xl;
+  text-align: left;
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: $spacing-sm 0;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $color-border;
+    }
+
+    @include mobile {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: $spacing-xs;
+    }
+  }
+
+  &__label {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__value {
+    font-size: $font-size-base;
+    color: $color-text-primary;
+    font-weight: 500;
+
+    &--highlight {
+      color: $color-orange;
+      font-weight: 600;
+    }
+  }
+
+  &__link {
+    color: $color-light-blue;
+    font-weight: 500;
+    @include focus-visible;
+  }
+}
+
+// Zoom Button
+.zoom-btn {
+  @include button-primary;
+  font-size: $font-size-lg;
+  padding: 16px $spacing-2xl;
+  margin-bottom: $spacing-xl;
+}
+
+// Info Box
+.info-box {
+  @include glass-card;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-xl;
+
+  p {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+    line-height: 1.6;
+
+    &:not(:last-child) {
+      margin-bottom: $spacing-sm;
+    }
+  }
+}
+
+// Back Link
+.back-link {
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+  @include focus-visible;
+
+  &:hover {
+    color: $color-light-blue;
+  }
+}

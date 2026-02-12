@@ -1,0 +1,107 @@
+<section class="slot-picker">
+  <!-- Hero -->
+  <div class="hero">
+    <h1 class="hero__title">Buchen Sie Ihre <span class="hero__highlight">persoenliche Demo</span></h1>
+    <p class="hero__subtitle">Erleben Sie unsere Loesungen live in einer 30-minuetigen Online-Praesentation</p>
+  </div>
+
+  <!-- Product Selection -->
+  <div class="products" role="radiogroup" aria-label="Produktauswahl">
+    <h2 class="section-title">Welches Produkt interessiert Sie?</h2>
+    <div class="products__grid">
+      @for (product of products; track product.id) {
+        <button
+          class="product-card"
+          [class.product-card--selected]="selectedProduct === product.id"
+          (click)="selectProduct(product.id)"
+          [attr.aria-pressed]="selectedProduct === product.id"
+          role="radio"
+          [attr.aria-checked]="selectedProduct === product.id">
+          <span class="product-card__icon">{{ product.icon }}</span>
+          <span class="product-card__label">{{ product.label }}</span>
+          <span class="product-card__description">{{ product.description }}</span>
+        </button>
+      }
+    </div>
+  </div>
+
+  <!-- Calendar View (shown after product selection) -->
+  @if (selectedProduct) {
+    <div class="calendar" aria-live="polite">
+      <h2 class="section-title">Waehlen Sie einen Termin</h2>
+
+      <!-- Week Navigation -->
+      <div class="calendar__nav">
+        <button
+          class="nav-btn"
+          (click)="previousWeek()"
+          [disabled]="!canGoPrevious()"
+          aria-label="Vorherige Woche">
+          &#8249;
+        </button>
+        <span class="calendar__week-label">{{ getWeekLabel() }}</span>
+        <button
+          class="nav-btn"
+          (click)="nextWeek()"
+          [disabled]="!canGoNext()"
+          aria-label="Naechste Woche">
+          &#8250;
+        </button>
+      </div>
+
+      <!-- Loading -->
+      @if (loading) {
+        <app-loading-spinner />
+      }
+
+      <!-- Error -->
+      @if (error) {
+        <div class="error-banner" role="alert">
+          <p>{{ error }}</p>
+          <button class="error-banner__retry" (click)="selectProduct(selectedProduct!)">Erneut versuchen</button>
+        </div>
+      }
+
+      <!-- Day Columns -->
+      @if (!loading && !error && weekDays.length > 0) {
+        <div class="calendar__grid">
+          @for (day of weekDays; track day.date) {
+            <div class="day-column">
+              <div class="day-column__header">
+                <span class="day-column__name">{{ formatDayHeader(day.date) }}</span>
+                <span class="day-column__date">{{ formatDayDate(day.date) }}</span>
+              </div>
+              <div class="day-column__slots">
+                @if (day.totalAvailable === 0) {
+                  <p class="day-column__empty">Keine freien Termine</p>
+                }
+                @for (slot of day.slots; track slot.start) {
+                  <button
+                    class="slot-btn"
+                    [class.slot-btn--selected]="isSelectedSlot(slot)"
+                    (click)="selectSlot(slot)"
+                    [attr.aria-pressed]="isSelectedSlot(slot)"
+                    [attr.aria-label]="formatTime(slot.start) + ' bis ' + formatTime(slot.end) + ' Uhr'">
+                    {{ formatTime(slot.start) }}
+                  </button>
+                }
+              </div>
+            </div>
+          }
+        </div>
+      }
+
+      <!-- Confirm Button -->
+      @if (selectedSlot) {
+        <div class="calendar__confirm" aria-live="assertive">
+          <p class="calendar__selected-info">
+            Gewaehlter Termin: <strong>{{ formatTime(selectedSlot.start) }} - {{ formatTime(selectedSlot.end) }} Uhr</strong>
+          </p>
+          <button class="confirm-btn" (click)="confirmSelection()">
+            Termin auswaehlen
+          </button>
+        </div>
+      }
+    </div>
+  }
+</section>

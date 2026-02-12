@@ -1,0 +1,10 @@
+.main {
+  flex: 1;
+  min-height: calc(100vh - 64px - 80px);
+}
+
+:host {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}

@@ -1,0 +1,185 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.booking-form {
+  @include container;
+  max-width: 700px;
+  padding-top: $spacing-xl;
+  padding-bottom: $spacing-3xl;
+
+  &__title {
+    font-size: $font-size-2xl;
+    font-weight: 700;
+    color: $color-text-primary;
+    margin-bottom: $spacing-lg;
+  }
+}
+
+.back-btn {
+  @include button-secondary;
+  font-size: $font-size-sm;
+  margin-bottom: $spacing-lg;
+  padding: $spacing-sm $spacing-md;
+}
+
+// Summary
+.summary {
+  @include glass-card;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-xl;
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-sm;
+
+  &__item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    @include mobile {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: $spacing-xs;
+    }
+  }
+
+  &__label {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__value {
+    font-size: $font-size-base;
+    color: $color-text-primary;
+    font-weight: 500;
+
+    &--highlight {
+      color: $color-orange;
+      font-weight: 600;
+    }
+  }
+}
+
+// Form
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: $spacing-md;
+  margin-bottom: $spacing-lg;
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-field {
+  &--full {
+    grid-column: 1 / -1;
+  }
+
+  &__label {
+    display: block;
+    font-size: $font-size-sm;
+    font-weight: 600;
+    color: $color-text-secondary;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__input {
+    @include input-field;
+  }
+
+  &__textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+
+  &__error {
+    display: block;
+    font-size: $font-size-xs;
+    color: $color-error;
+    margin-top: $spacing-xs;
+  }
+}
+
+// Consent
+.consent {
+  margin-bottom: $spacing-xl;
+
+  &__label {
+    display: flex;
+    align-items: flex-start;
+    gap: $spacing-sm;
+    cursor: pointer;
+  }
+
+  &__checkbox {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    margin-top: 2px;
+    accent-color: $color-orange;
+    cursor: pointer;
+  }
+
+  &__text {
+    font-size: $font-size-sm;
+    color: $color-text-secondary;
+    line-height: 1.5;
+
+    a {
+      color: $color-light-blue;
+      text-decoration: underline;
+
+      &:hover {
+        color: #b0e0e8;
+      }
+    }
+  }
+}
+
+// Submit
+.submit-area {
+  text-align: center;
+
+  &__note {
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+    margin-top: $spacing-sm;
+  }
+}
+
+.submit-btn {
+  @include button-primary;
+  font-size: $font-size-lg;
+  padding: 16px $spacing-2xl;
+  width: 100%;
+  max-width: 400px;
+
+  &__spinner {
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+    display: inline-block;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// Error Banner
+.error-banner {
+  @include glass-card;
+  border-color: rgba($color-error, 0.3);
+  padding: $spacing-md $spacing-lg;
+  margin-bottom: $spacing-lg;
+  color: $color-error;
+  text-align: center;
+  font-size: $font-size-sm;
+}

@@ -1,0 +1,35 @@
+# Environment
+.env
+*.env.local
+
+# Dependencies
+node_modules/
+
+# Build outputs
+backend/dist/
+frontend/dist/
+frontend/.angular/
+
+# IDE
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker volumes
+postgres-data/
+redis-data/
+mailserver-data/
+mailserver-state/
+mailserver-logs/
+
+# SSL certs
+certbot-data/
+
+# Logs
+*.log
+logs/

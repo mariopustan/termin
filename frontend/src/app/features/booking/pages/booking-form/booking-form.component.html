@@ -1,0 +1,158 @@
+<section class="booking-form">
+  <div class="booking-form__container">
+    <!-- Back Button -->
+    <button class="back-btn" (click)="goBack()" aria-label="Zurueck zur Terminauswahl">
+      &#8249; Zurueck
+    </button>
+
+    <h1 class="booking-form__title">Termin buchen</h1>
+
+    <!-- Summary -->
+    <div class="summary">
+      <div class="summary__item">
+        <span class="summary__label">Produkt</span>
+        <span class="summary__value summary__value--highlight">{{ productLabel }}</span>
+      </div>
+      <div class="summary__item">
+        <span class="summary__label">Datum</span>
+        <span class="summary__value">{{ dateFormatted }}</span>
+      </div>
+      <div class="summary__item">
+        <span class="summary__label">Uhrzeit</span>
+        <span class="summary__value">{{ timeFormatted }} - {{ timeFormatted }} Uhr (30 Min.)</span>
+      </div>
+    </div>
+
+    <!-- Error Banner -->
+    @if (error) {
+      <div class="error-banner" role="alert">
+        {{ error }}
+      </div>
+    }
+
+    <!-- Form -->
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+      <div class="form-grid">
+        <!-- First Name -->
+        <div class="form-field">
+          <label for="firstName" class="form-field__label">Vorname *</label>
+          <input
+            id="firstName"
+            type="text"
+            formControlName="firstName"
+            class="form-field__input"
+            placeholder="Max"
+            autocomplete="given-name" />
+          @if (getFieldError('firstName')) {
+            <span class="form-field__error" role="alert">{{ getFieldError('firstName') }}</span>
+          }
+        </div>
+
+        <!-- Last Name -->
+        <div class="form-field">
+          <label for="lastName" class="form-field__label">Nachname *</label>
+          <input
+            id="lastName"
+            type="text"
+            formControlName="lastName"
+            class="form-field__input"
+            placeholder="Mustermann"
+            autocomplete="family-name" />
+          @if (getFieldError('lastName')) {
+            <span class="form-field__error" role="alert">{{ getFieldError('lastName') }}</span>
+          }
+        </div>
+
+        <!-- Company -->
+        <div class="form-field form-field--full">
+          <label for="companyName" class="form-field__label">Unternehmen *</label>
+          <input
+            id="companyName"
+            type="text"
+            formControlName="companyName"
+            class="form-field__input"
+            placeholder="Beispiel GmbH"
+            autocomplete="organization" />
+          @if (getFieldError('companyName')) {
+            <span class="form-field__error" role="alert">{{ getFieldError('companyName') }}</span>
+          }
+        </div>
+
+        <!-- Email -->
+        <div class="form-field">
+          <label for="email" class="form-field__label">E-Mail *</label>
+          <input
+            id="email"
+            type="email"
+            formControlName="email"
+            class="form-field__input"
+            placeholder="max@beispiel.de"
+            autocomplete="email" />
+          @if (getFieldError('email')) {
+            <span class="form-field__error" role="alert">{{ getFieldError('email') }}</span>
+          }
+        </div>
+
+        <!-- Phone -->
+        <div class="form-field">
+          <label for="phone" class="form-field__label">Telefon *</label>
+          <input
+            id="phone"
+            type="tel"
+            formControlName="phone"
+            class="form-field__input"
+            placeholder="+49 170 1234567"
+            autocomplete="tel" />
+          @if (getFieldError('phone')) {
+            <span class="form-field__error" role="alert">{{ getFieldError('phone') }}</span>
+          }
+        </div>
+
+        <!-- Message -->
+        <div class="form-field form-field--full">
+          <label for="message" class="form-field__label">Nachricht (optional)</label>
+          <textarea
+            id="message"
+            formControlName="message"
+            class="form-field__input form-field__textarea"
+            placeholder="Gibt es etwas, das Sie besonders interessiert?"
+            rows="3"></textarea>
+        </div>
+      </div>
+
+      <!-- Consent -->
+      <div class="consent">
+        <label class="consent__label">
+          <input
+            type="checkbox"
+            formControlName="consentGiven"
+            class="consent__checkbox" />
+          <span class="consent__text">
+            Ich habe die
+            <a href="https://www.it-warehouse.de/datenschutz" target="_blank" rel="noopener">Datenschutzerklaerung</a>
+            gelesen und bin mit der Verarbeitung meiner Daten einverstanden. *
+          </span>
+        </label>
+        @if (getFieldError('consentGiven')) {
+          <span class="form-field__error" role="alert">{{ getFieldError('consentGiven') }}</span>
+        }
+      </div>
+
+      <!-- Submit -->
+      <div class="submit-area">
+        <button
+          type="submit"
+          class="submit-btn"
+          [disabled]="form.invalid || submitting">
+          @if (submitting) {
+            <span class="submit-btn__spinner"></span>
+            Wird gebucht...
+          } @else {
+            Termin verbindlich buchen
+          }
+        </button>
+        <p class="submit-area__note">* Pflichtfelder</p>
+      </div>
+    </form>
+  </div>
+</section>

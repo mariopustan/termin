@@ -1,0 +1,282 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.slot-picker {
+  @include container;
+  padding-top: $spacing-2xl;
+  padding-bottom: $spacing-3xl;
+}
+
+// Hero
+.hero {
+  text-align: center;
+  margin-bottom: $spacing-3xl;
+
+  &__title {
+    font-size: $font-size-3xl;
+    font-weight: 700;
+    line-height: $line-height-tight;
+    color: $color-text-primary;
+    margin-bottom: $spacing-md;
+  }
+
+  &__highlight {
+    background: $gradient-primary;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  &__subtitle {
+    font-size: $font-size-lg;
+    color: $color-text-secondary;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+}
+
+.section-title {
+  font-size: $font-size-xl;
+  font-weight: 600;
+  color: $color-text-primary;
+  margin-bottom: $spacing-lg;
+  text-align: center;
+}
+
+// Products
+.products {
+  margin-bottom: $spacing-3xl;
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: $spacing-md;
+
+    @include tablet {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include mobile {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+.product-card {
+  @include glass-card;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-sm;
+  padding: $spacing-lg;
+  cursor: pointer;
+  transition: all $duration-normal $easing-default;
+  border: 1px solid transparent;
+  text-align: center;
+  min-height: $touch-target-min;
+  @include focus-visible;
+
+  &:hover {
+    border-color: $color-border-hover;
+    transform: translateY(-2px);
+    box-shadow: $shadow-glow-blue;
+  }
+
+  &--selected {
+    border-color: $color-orange;
+    background: rgba($color-orange, 0.08);
+    box-shadow: $shadow-glow-orange;
+  }
+
+  &__icon {
+    font-size: $font-size-2xl;
+    font-weight: 700;
+    color: $color-orange;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__label {
+    font-size: $font-size-base;
+    font-weight: 600;
+    color: $color-text-primary;
+  }
+
+  &__description {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+    line-height: 1.4;
+  }
+}
+
+// Calendar
+.calendar {
+  &__nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-lg;
+    margin-bottom: $spacing-lg;
+  }
+
+  &__week-label {
+    font-size: $font-size-base;
+    font-weight: 600;
+    color: $color-text-primary;
+    min-width: 200px;
+    text-align: center;
+  }
+
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: $spacing-md;
+    margin-bottom: $spacing-xl;
+
+    @include tablet {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    @include mobile {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__confirm {
+    @include glass-card;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: $spacing-lg $spacing-xl;
+    margin-top: $spacing-lg;
+
+    @include mobile {
+      flex-direction: column;
+      gap: $spacing-md;
+      text-align: center;
+    }
+  }
+
+  &__selected-info {
+    color: $color-text-secondary;
+    font-size: $font-size-base;
+
+    strong {
+      color: $color-orange;
+    }
+  }
+}
+
+.nav-btn {
+  @include button-secondary;
+  width: $touch-target-min;
+  height: $touch-target-min;
+  padding: 0;
+  font-size: 24px;
+  border-radius: $radius-full;
+}
+
+// Day Column
+.day-column {
+  @include glass-card;
+  overflow: hidden;
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: $spacing-md;
+    border-bottom: 1px solid $color-border;
+  }
+
+  &__name {
+    font-size: $font-size-sm;
+    font-weight: 600;
+    color: $color-text-primary;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__date {
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+  }
+
+  &__slots {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+    padding: $spacing-sm;
+    max-height: 400px;
+    overflow-y: auto;
+  }
+
+  &__empty {
+    font-size: $font-size-xs;
+    color: $color-text-disabled;
+    text-align: center;
+    padding: $spacing-lg $spacing-sm;
+  }
+}
+
+// Slot Button
+.slot-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-sm $spacing-md;
+  min-height: $touch-target-min;
+  font-family: $font-family;
+  font-size: $font-size-sm;
+  font-weight: 500;
+  color: $color-text-primary;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid $color-border;
+  border-radius: $radius-md;
+  cursor: pointer;
+  transition: all $duration-fast $easing-default;
+  @include focus-visible;
+
+  &:hover {
+    border-color: $color-border-hover;
+    background: rgba(255, 255, 255, 0.06);
+    box-shadow: $shadow-glow-blue;
+  }
+
+  &--selected {
+    background: $gradient-button;
+    border-color: $color-orange;
+    color: $color-text-primary;
+    font-weight: 600;
+    box-shadow: $shadow-glow-orange;
+  }
+}
+
+.confirm-btn {
+  @include button-primary;
+  font-size: $font-size-base;
+  padding: 14px $spacing-xl;
+}
+
+// Error
+.error-banner {
+  @include glass-card;
+  border-color: rgba($color-error, 0.3);
+  padding: $spacing-lg;
+  text-align: center;
+  color: $color-error;
+
+  &__retry {
+    @include button-secondary;
+    margin-top: $spacing-md;
+    font-size: $font-size-sm;
+    color: $color-light-blue;
+  }
+}
+
+// Reduced motion
+@include reduced-motion {
+  .product-card:hover,
+  .slot-btn:hover {
+    transform: none;
+  }
+}

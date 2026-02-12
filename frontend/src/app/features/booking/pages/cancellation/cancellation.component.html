@@ -1,0 +1,70 @@
+<section class="cancellation">
+  <div class="cancellation__container">
+    @if (loading) {
+      <app-loading-spinner />
+    }
+
+    @if (error && !bookingInfo) {
+      <div class="error-state">
+        <h1>Buchung nicht gefunden</h1>
+        <p>{{ error }}</p>
+        <a href="/" class="link">Zurueck zur Startseite</a>
+      </div>
+    }
+
+    @if (bookingInfo && !cancelled) {
+      <h1 class="cancellation__title">Termin stornieren</h1>
+      <p class="cancellation__subtitle">
+        Moechten Sie den folgenden Termin wirklich stornieren?
+      </p>
+
+      <div class="details-card">
+        <div class="details-card__row">
+          <span class="details-card__label">Produkt</span>
+          <span class="details-card__value">{{ productLabel }}</span>
+        </div>
+        <div class="details-card__row">
+          <span class="details-card__label">Termin</span>
+          <span class="details-card__value">{{ bookingInfo.dateFormatted }} Uhr</span>
+        </div>
+        <div class="details-card__row">
+          <span class="details-card__label">Name</span>
+          <span class="details-card__value">{{ bookingInfo.prospectName }}</span>
+        </div>
+      </div>
+
+      @if (error) {
+        <div class="error-banner" role="alert">{{ error }}</div>
+      }
+
+      <div class="actions">
+        <button
+          class="cancel-btn"
+          (click)="confirmCancellation()"
+          [disabled]="cancelling || bookingInfo.status === 'cancelled'">
+          @if (cancelling) {
+            Wird storniert...
+          } @else if (bookingInfo.status === 'cancelled') {
+            Bereits storniert
+          } @else {
+            Termin stornieren
+          }
+        </button>
+        <a href="/" class="keep-link">Termin behalten</a>
+      </div>
+    }
+
+    @if (cancelled) {
+      <div class="success-state">
+        <div class="success-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+        <h1>Termin storniert</h1>
+        <p>Ihr Termin wurde erfolgreich storniert. Der Zeitslot ist nun wieder fuer andere verfuegbar.</p>
+        <a href="/" class="link">Neuen Termin buchen</a>
+      </div>
+    }
+  </div>
+</section>

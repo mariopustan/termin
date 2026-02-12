@@ -1,0 +1,57 @@
+<section class="confirmation">
+  <div class="confirmation__container">
+    <!-- Success Icon -->
+    <div class="success-icon" aria-hidden="true">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+    </div>
+
+    <h1 class="confirmation__title">Termin gebucht!</h1>
+    <p class="confirmation__subtitle">
+      Vielen Dank fuer Ihre Buchung. Eine Bestaetigung mit allen Details wurde an Ihre E-Mail-Adresse gesendet.
+    </p>
+
+    <!-- Details Card -->
+    <div class="details-card">
+      <div class="details-card__row">
+        <span class="details-card__label">Produkt</span>
+        <span class="details-card__value details-card__value--highlight">{{ productLabel }}</span>
+      </div>
+      <div class="details-card__row">
+        <span class="details-card__label">Datum</span>
+        <span class="details-card__value">{{ dateFormatted }}</span>
+      </div>
+      <div class="details-card__row">
+        <span class="details-card__label">Uhrzeit</span>
+        <span class="details-card__value">{{ timeFormatted }} Uhr (30 Min.)</span>
+      </div>
+      @if (zoomJoinUrl) {
+        <div class="details-card__row">
+          <span class="details-card__label">Meeting</span>
+          <a [href]="zoomJoinUrl" target="_blank" rel="noopener" class="details-card__link">
+            Zoom-Meeting beitreten
+          </a>
+        </div>
+      }
+    </div>
+
+    <!-- Zoom CTA -->
+    @if (zoomJoinUrl) {
+      <a [href]="zoomJoinUrl" target="_blank" rel="noopener" class="zoom-btn">
+        Zoom-Meeting beitreten
+      </a>
+    }
+
+    <!-- Info -->
+    <div class="info-box">
+      <p>Eine Kalendereinladung (.ics) wurde Ihrer Bestaetigungs-E-Mail angehaengt.</p>
+      <p>Sie koennen den Termin jederzeit ueber den Link in der E-Mail stornieren.</p>
+    </div>
+
+    <!-- Back Link -->
+    <a href="https://www.it-warehouse.de" class="back-link">
+      Zurueck zu IT Warehouse
+    </a>
+  </div>
+</section>

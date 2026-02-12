@@ -1,0 +1,42 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.footer {
+  border-top: 1px solid $color-border;
+  padding: $spacing-lg 0;
+  margin-top: auto;
+
+  &__container {
+    @include container;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: $spacing-md;
+
+    @include mobile {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+
+  &__text {
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+  }
+
+  &__links {
+    display: flex;
+    gap: $spacing-lg;
+  }
+
+  &__link {
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+    @include focus-visible;
+
+    &:hover {
+      color: $color-light-blue;
+    }
+  }
+}

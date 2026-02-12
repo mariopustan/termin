@@ -1,0 +1,126 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.cancellation {
+  @include container;
+  max-width: 600px;
+  padding-top: $spacing-3xl;
+  padding-bottom: $spacing-3xl;
+  text-align: center;
+
+  &__title {
+    font-size: $font-size-2xl;
+    font-weight: 700;
+    color: $color-text-primary;
+    margin-bottom: $spacing-md;
+  }
+
+  &__subtitle {
+    font-size: $font-size-base;
+    color: $color-text-secondary;
+    margin-bottom: $spacing-xl;
+  }
+}
+
+.details-card {
+  @include glass-card;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-xl;
+  text-align: left;
+
+  &__row {
+    display: flex;
+    justify-content: space-between;
+    padding: $spacing-sm 0;
+
+    &:not(:last-child) {
+      border-bottom: 1px solid $color-border;
+    }
+  }
+
+  &__label {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+  }
+
+  &__value {
+    font-size: $font-size-base;
+    color: $color-text-primary;
+    font-weight: 500;
+  }
+}
+
+.actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: $spacing-md;
+}
+
+.cancel-btn {
+  @include button-base;
+  background: rgba($color-error, 0.15);
+  color: $color-error;
+  border: 1px solid rgba($color-error, 0.3);
+  padding: 14px $spacing-2xl;
+
+  &:hover:not(:disabled) {
+    background: rgba($color-error, 0.25);
+  }
+}
+
+.keep-link {
+  font-size: $font-size-sm;
+  color: $color-text-muted;
+  @include focus-visible;
+
+  &:hover {
+    color: $color-light-blue;
+  }
+}
+
+.success-state, .error-state {
+  h1 {
+    font-size: $font-size-xl;
+    color: $color-text-primary;
+    margin-bottom: $spacing-md;
+  }
+
+  p {
+    color: $color-text-secondary;
+    margin-bottom: $spacing-lg;
+  }
+}
+
+.success-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba($color-success, 0.15);
+  border: 2px solid $color-success;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto $spacing-lg;
+
+  svg {
+    width: 32px;
+    height: 32px;
+    color: $color-success;
+  }
+}
+
+.link {
+  color: $color-light-blue;
+  font-weight: 500;
+  @include focus-visible;
+}
+
+.error-banner {
+  @include glass-card;
+  border-color: rgba($color-error, 0.3);
+  padding: $spacing-md;
+  margin-bottom: $spacing-lg;
+  color: $color-error;
+  font-size: $font-size-sm;
+}

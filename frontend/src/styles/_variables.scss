@@ -1,0 +1,91 @@
+// === SalesFunnel Design Tokens ===
+// Based on www.it-warehouse.de design system
+
+// Colors
+$color-orange: #e87a1e;
+$color-orange-dark: #d16a18;
+$color-light-blue: #8cced9;
+$color-success: #10b981;
+$color-error: #ef4444;
+$color-warning: #f59e0b;
+
+// Backgrounds
+$color-bg-primary: #0a0f1c;
+$color-bg-surface: #1a2634;
+$color-bg-elevated: #243447;
+$color-bg-hover: rgba(255, 255, 255, 0.05);
+
+// Text
+$color-text-primary: #ffffff;
+$color-text-secondary: rgba(255, 255, 255, 0.8);
+$color-text-muted: rgba(255, 255, 255, 0.5);
+$color-text-disabled: rgba(255, 255, 255, 0.3);
+
+// Borders
+$color-border: rgba(255, 255, 255, 0.1);
+$color-border-hover: rgba(140, 206, 217, 0.3);
+$color-border-focus: $color-orange;
+
+// Gradients
+$gradient-primary: linear-gradient(135deg, $color-orange, $color-light-blue);
+$gradient-button: linear-gradient(135deg, $color-orange, $color-orange-dark);
+$gradient-surface: linear-gradient(135deg, rgba($color-bg-surface, 0.8), rgba($color-bg-elevated, 0.4));
+
+// Typography
+$font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+$font-size-xs: 12px;
+$font-size-sm: 14px;
+$font-size-base: 16px;
+$font-size-lg: 18px;
+$font-size-xl: 22px;
+$font-size-2xl: 28px;
+$font-size-3xl: clamp(2rem, 5vw, 3rem);
+$line-height-base: 1.5;
+$line-height-tight: 1.2;
+
+// Spacing
+$spacing-xs: 4px;
+$spacing-sm: 8px;
+$spacing-md: 16px;
+$spacing-lg: 24px;
+$spacing-xl: 32px;
+$spacing-2xl: 48px;
+$spacing-3xl: 64px;
+
+// Border Radius
+$radius-sm: 4px;
+$radius-md: 8px;
+$radius-lg: 16px;
+$radius-xl: 24px;
+$radius-full: 9999px;
+
+// Shadows
+$shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
+$shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
+$shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.4);
+$shadow-glow-orange: 0 0 20px rgba(232, 122, 30, 0.3);
+$shadow-glow-blue: 0 0 20px rgba(140, 206, 217, 0.2);
+
+// Glassmorphism
+$glass-bg: rgba(255, 255, 255, 0.03);
+$glass-border: 1px solid rgba(255, 255, 255, 0.08);
+$glass-blur: blur(10px);
+$glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+
+// Transitions
+$duration-fast: 150ms;
+$duration-normal: 300ms;
+$duration-slow: 500ms;
+$easing-default: cubic-bezier(0.4, 0, 0.2, 1);
+
+// Breakpoints
+$breakpoint-mobile: 768px;
+$breakpoint-tablet: 1024px;
+$breakpoint-desktop: 1200px;
+
+// Focus
+$focus-ring: 3px solid $color-orange;
+$focus-offset: 2px;
+
+// Touch target
+$touch-target-min: 44px;
