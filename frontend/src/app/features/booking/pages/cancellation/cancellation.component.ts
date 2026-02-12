@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../../../core/services/api.service';
@@ -24,6 +24,7 @@ export class CancellationComponent implements OnInit {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly api: ApiService,
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -39,10 +40,12 @@ export class CancellationComponent implements OnInit {
       next: () => {
         this.cancelled = true;
         this.cancelling = false;
+        this.cdr.markForCheck();
       },
       error: (err) => {
         this.cancelling = false;
         this.error = err.error?.error?.message || 'Stornierung fehlgeschlagen. Bitte versuchen Sie es erneut.';
+        this.cdr.markForCheck();
       },
     });
   }
@@ -53,10 +56,12 @@ export class CancellationComponent implements OnInit {
         this.bookingInfo = response.data;
         this.productLabel = PRODUCT_LABELS[response.data.productInterest] || response.data.productInterest;
         this.loading = false;
+        this.cdr.markForCheck();
       },
       error: () => {
         this.error = 'Buchung nicht gefunden oder bereits storniert.';
         this.loading = false;
+        this.cdr.markForCheck();
       },
     });
   }

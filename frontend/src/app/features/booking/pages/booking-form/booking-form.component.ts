@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -34,6 +34,7 @@ export class BookingFormComponent implements OnInit {
     private readonly api: ApiService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -96,6 +97,7 @@ export class BookingFormComponent implements OnInit {
         } else {
           this.error = 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.';
         }
+        this.cdr.markForCheck();
       },
     });
   }

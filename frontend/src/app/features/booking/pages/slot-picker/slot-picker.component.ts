@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { format, addDays, startOfWeek } from 'date-fns';
@@ -64,6 +64,7 @@ export class SlotPickerComponent implements OnInit {
   constructor(
     private readonly api: ApiService,
     private readonly router: Router,
+    private readonly cdr: ChangeDetectorRef,
   ) {}
 
   ngOnInit(): void {
@@ -197,10 +198,12 @@ export class SlotPickerComponent implements OnInit {
           this.error = 'Fehler beim Verarbeiten der Termine.';
         }
         this.loading = false;
+        this.cdr.markForCheck();
       },
       error: (err) => {
         this.error = 'Termine konnten nicht geladen werden. Bitte versuchen Sie es erneut.';
         this.loading = false;
+        this.cdr.markForCheck();
         console.error('Failed to load slots:', err);
       },
     });
