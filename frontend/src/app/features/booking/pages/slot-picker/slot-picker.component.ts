@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
-import { format, addDays, startOfWeek, eachDayOfInterval } from 'date-fns';
+import { format, addDays, startOfWeek } from 'date-fns';
 import { de } from 'date-fns/locale';
 import { ApiService } from '../../../../core/services/api.service';
 import {
@@ -152,36 +152,50 @@ export class SlotPickerComponent implements OnInit {
   private loadWeekSlots(): void {
     this.loading = true;
     this.error = null;
+    this.weekDays = [];
 
     const weekEnd = addDays(this.currentWeekStart, 4);
     const from = format(this.currentWeekStart, 'yyyy-MM-dd');
     const to = format(weekEnd, 'yyyy-MM-dd');
 
-    // Build the full Mon-Fri date list for this week
-    const allWeekDays = eachDayOfInterval({
-      start: this.currentWeekStart,
-      end: weekEnd,
-    }).map((d) => format(d, 'yyyy-MM-dd'));
+    // Build full Mon-Fri date list manually
+    const allWeekDays: string[] = [];
+    for (let i = 0; i < 5; i++) {
+      allWeekDays.push(format(addDays(this.currentWeekStart, i), 'yyyy-MM-dd'));
+    }
+
+    const DAY_NAMES: Record<number, string> = {
+      0: 'Sonntag', 1: 'Montag', 2: 'Dienstag', 3: 'Mittwoch',
+      4: 'Donnerstag', 5: 'Freitag', 6: 'Samstag',
+    };
 
     this.api.getSlotsRange(from, to).subscribe({
       next: (response) => {
-        // API may return fewer days (past dates are clamped to today)
-        // Fill in empty DaySlots for missing days
-        const returnedDates = new Set(response.data.map((d: DaySlots) => d.date));
-        const DAY_NAMES = ['Sonntag', 'Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag', 'Samstag'];
-
-        this.weekDays = allWeekDays.map((dateStr) => {
-          if (returnedDates.has(dateStr)) {
-            return response.data.find((d: DaySlots) => d.date === dateStr)!;
+        try {
+          const apiDays = response.data || [];
+          // Build a lookup map from the API response
+          const dayMap: Record<string, DaySlots> = {};
+          for (const day of apiDays) {
+            dayMap[day.date] = day;
           }
-          const dayIndex = new Date(dateStr + 'T12:00:00').getDay();
-          return {
-            date: dateStr,
-            dayOfWeek: DAY_NAMES[dayIndex],
-            slots: [],
-            totalAvailable: 0,
-          };
-        });
+
+          // Fill in all 5 weekdays, using API data where available
+          this.weekDays = allWeekDays.map((dateStr) => {
+            if (dayMap[dateStr]) {
+              return dayMap[dateStr];
+            }
+            const dayIndex = new Date(dateStr + 'T12:00:00').getDay();
+            return {
+              date: dateStr,
+              dayOfWeek: DAY_NAMES[dayIndex] || '',
+              slots: [],
+              totalAvailable: 0,
+            };
+          });
+        } catch (e) {
+          console.error('Error processing slots response:', e);
+          this.error = 'Fehler beim Verarbeiten der Termine.';
+        }
         this.loading = false;
       },
       error: (err) => {
