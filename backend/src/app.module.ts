@@ -45,7 +45,7 @@ import { MailModule } from './modules/mail/mail.module';
         password: config.get<string>('database.password'),
         database: config.get<string>('database.database'),
         entities: [Booking],
-        synchronize: config.get<string>('app.environment') === 'development',
+        synchronize: true,
         logging: config.get<string>('app.environment') === 'development',
         ssl: false,
       }),
