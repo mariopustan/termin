@@ -57,14 +57,14 @@ export class MailService {
       'https://termin.demo-itw.de',
     );
 
+    const mailUser = this.configService.get<string>('mail.user', '');
+    const mailPass = this.configService.get<string>('mail.password', '');
+
     this.transporter = nodemailer.createTransport({
       host: this.configService.get<string>('mail.host', 'localhost'),
-      port: this.configService.get<number>('mail.port', 587),
+      port: this.configService.get<number>('mail.port', 25),
       secure: false,
-      auth: {
-        user: this.configService.get<string>('mail.user', ''),
-        pass: this.configService.get<string>('mail.password', ''),
-      },
+      ...(mailUser && mailPass ? { auth: { user: mailUser, pass: mailPass } } : {}),
       tls: {
         rejectUnauthorized: false,
       },
