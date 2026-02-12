@@ -77,17 +77,37 @@ export class SlotsController {
       );
     }
 
-    const fromDate = parseISO(fromStr);
+    let fromDate = parseISO(fromStr);
     const toDate = parseISO(toStr);
 
     if (!isValid(fromDate) || !isValid(toDate)) {
       throw new BadRequestException('Ungültiges Datumsformat');
     }
 
-    if (!this.slotCalculator.isDateInRange(fromDate) || !this.slotCalculator.isDateInRange(toDate)) {
+    // Clamp fromDate to today if it's in the past (e.g. when requesting current week)
+    const today = new Date();
+    const todayStr = format(today, 'yyyy-MM-dd');
+    if (format(fromDate, 'yyyy-MM-dd') < todayStr) {
+      fromDate = parseISO(todayStr);
+    }
+
+    if (!this.slotCalculator.isDateInRange(toDate)) {
       throw new BadRequestException(
         'Der Zeitraum liegt außerhalb des buchbaren Bereichs',
       );
+    }
+
+    // If fromDate is now after toDate, return empty
+    if (format(fromDate, 'yyyy-MM-dd') > format(toDate, 'yyyy-MM-dd')) {
+      return {
+        data: [],
+        meta: {
+          lastSyncAt: this.calendarSync.getLastSyncAt()?.toISOString() || null,
+          timezone: 'Europe/Berlin',
+          from: fromStr,
+          to: toStr,
+        },
+      };
     }
 
     const days = eachDayOfInterval({ start: fromDate, end: toDate });
@@ -98,7 +118,8 @@ export class SlotsController {
 
     const busyPeriods = await this.calendarSync.getBusyPeriods();
 
-    const rangeStart = new Date(fromStr + 'T00:00:00');
+    const clampedFromStr = format(fromDate, 'yyyy-MM-dd');
+    const rangeStart = new Date(clampedFromStr + 'T00:00:00');
     const rangeEnd = new Date(toStr + 'T23:59:59');
 
     const existingBookings = await this.bookingRepository.find({
