@@ -34,7 +34,7 @@ export class CalendarSyncScheduler {
     });
   }
 
-  @Cron('*/2 * * * *')
+  @Cron('*/30 * * * *')
   async syncCalendars(): Promise<void> {
     this.logger.log('Starting calendar sync...');
     const startTime = Date.now();
@@ -75,7 +75,7 @@ export class CalendarSyncScheduler {
         })),
       );
 
-      await this.redis.set(BUSY_PERIODS_KEY, serialized, 'EX', 300);
+      await this.redis.set(BUSY_PERIODS_KEY, serialized, 'EX', 2100);
 
       this.lastSyncAt = new Date();
       this.consecutiveErrors = 0;
