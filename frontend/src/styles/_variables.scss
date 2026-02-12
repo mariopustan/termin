@@ -1,38 +1,42 @@
 // === SalesFunnel Design Tokens ===
-// Based on www.it-warehouse.de design system
+// Synchronized with www.it-warehouse.de design system
 
 // Colors
-$color-orange: #e87a1e;
-$color-orange-dark: #d16a18;
-$color-light-blue: #8cced9;
+$color-orange: #E87A1E;
+$color-orange-light: #f5a04e;
+$color-orange-glow: rgba(232, 122, 30, 0.3);
+$color-light-blue: #8CCED9;
+$color-dark-blue: #1A3A5C;
+$color-navy: #162D4D;
 $color-success: #10b981;
 $color-error: #ef4444;
 $color-warning: #f59e0b;
 
 // Backgrounds
-$color-bg-primary: #0a0f1c;
-$color-bg-surface: #1a2634;
-$color-bg-elevated: #243447;
+$color-bg-primary: #0d1a2d;
+$color-bg-gradient: linear-gradient(135deg, #0d1a2d 0%, #1a2f5a 50%, #152642 100%);
+$color-bg-surface: #162540;
+$color-bg-elevated: #1e3358;
 $color-bg-hover: rgba(255, 255, 255, 0.05);
 
 // Text
-$color-text-primary: #ffffff;
-$color-text-secondary: rgba(255, 255, 255, 0.8);
-$color-text-muted: rgba(255, 255, 255, 0.5);
-$color-text-disabled: rgba(255, 255, 255, 0.3);
+$color-text-primary: #f0f4f8;
+$color-text-secondary: rgba(240, 244, 248, 0.8);
+$color-text-muted: #9ea4ab;
+$color-text-disabled: rgba(240, 244, 248, 0.3);
 
 // Borders
-$color-border: rgba(255, 255, 255, 0.1);
+$color-border: rgba(140, 206, 217, 0.15);
 $color-border-hover: rgba(140, 206, 217, 0.3);
 $color-border-focus: $color-orange;
 
 // Gradients
 $gradient-primary: linear-gradient(135deg, $color-orange, $color-light-blue);
-$gradient-button: linear-gradient(135deg, $color-orange, $color-orange-dark);
+$gradient-button: linear-gradient(135deg, $color-orange, $color-orange-light);
 $gradient-surface: linear-gradient(135deg, rgba($color-bg-surface, 0.8), rgba($color-bg-elevated, 0.4));
 
 // Typography
-$font-family: 'Open Sans', Arial, Helvetica, sans-serif;
+$font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
 $font-size-xs: 12px;
 $font-size-sm: 14px;
 $font-size-base: 16px;
@@ -53,8 +57,8 @@ $spacing-2xl: 48px;
 $spacing-3xl: 64px;
 
 // Border Radius
-$radius-sm: 4px;
-$radius-md: 8px;
+$radius-sm: 8px;
+$radius-md: 16px;
 $radius-lg: 16px;
 $radius-xl: 24px;
 $radius-full: 9999px;
@@ -62,15 +66,15 @@ $radius-full: 9999px;
 // Shadows
 $shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
 $shadow-md: 0 4px 6px rgba(0, 0, 0, 0.4);
-$shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.4);
-$shadow-glow-orange: 0 0 20px rgba(232, 122, 30, 0.3);
+$shadow-lg: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+$shadow-glow-orange: 0 4px 20px $color-orange-glow;
 $shadow-glow-blue: 0 0 20px rgba(140, 206, 217, 0.2);
 
 // Glassmorphism
-$glass-bg: rgba(255, 255, 255, 0.03);
-$glass-border: 1px solid rgba(255, 255, 255, 0.08);
-$glass-blur: blur(10px);
-$glass-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+$glass-bg: rgba(255, 255, 255, 0.02);
+$glass-border: 1px solid $color-border;
+$glass-blur: blur(20px);
+$glass-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
 
 // Transitions
 $duration-fast: 150ms;
