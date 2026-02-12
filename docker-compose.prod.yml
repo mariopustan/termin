@@ -65,40 +65,9 @@ services:
     networks:
       - salesfunnel
 
-  mailserver:
-    image: ghcr.io/docker-mailserver/docker-mailserver:latest
-    container_name: salesfunnel-mailserver
-    hostname: mail.demo-itw.de
-    ports:
-      - "25:25"
-      - "587:587"
-    volumes:
-      - mailserver-data:/var/mail
-      - mailserver-state:/var/mail-state
-      - mailserver-logs:/var/log/mail
-      - ./mailserver/config:/tmp/docker-mailserver
-      - /etc/letsencrypt:/etc/letsencrypt:ro
-    environment:
-      - ENABLE_SPAMASSASSIN=0
-      - ENABLE_CLAMAV=0
-      - ENABLE_FAIL2BAN=1
-      - SSL_TYPE=letsencrypt
-      - PERMIT_DOCKER=network
-      - ONE_DIR=1
-      - ENABLE_POSTGREY=0
-      - ENABLE_SASLAUTHD=0
-      - SMTP_ONLY=1
-      - OVERRIDE_HOSTNAME=mail.demo-itw.de
-    restart: unless-stopped
-    networks:
-      - salesfunnel
-
 volumes:
   postgres-data:
   redis-data:
-  mailserver-data:
-  mailserver-state:
-  mailserver-logs:
 
 networks:
   salesfunnel:

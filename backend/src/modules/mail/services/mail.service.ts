@@ -2,6 +2,7 @@ import { Injectable, Logger } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as nodemailer from 'nodemailer';
 import { format } from 'date-fns';
+import { toZonedTime } from 'date-fns-tz';
 import { de } from 'date-fns/locale';
 import { ProductInterest } from '../../booking/interfaces/booking-status.enum';
 
@@ -72,7 +73,8 @@ export class MailService {
   }
 
   async sendBookingConfirmation(data: BookingConfirmationData): Promise<void> {
-    const dateFormatted = format(data.date, "EEEE, dd. MMMM yyyy 'um' HH:mm 'Uhr'", {
+    const berlinDate = toZonedTime(data.date, 'Europe/Berlin');
+    const dateFormatted = format(berlinDate, "EEEE, dd. MMMM yyyy 'um' HH:mm 'Uhr'", {
       locale: de,
     });
     const productLabel = PRODUCT_LABELS[data.productInterest];
@@ -98,7 +100,7 @@ export class MailService {
       await this.transporter.sendMail({
         from: `"IT Warehouse AG" <${this.fromAddress}>`,
         to: data.to,
-        subject: `Terminbestaetigung: ${productLabel} Demo am ${format(data.date, 'dd.MM.yyyy')}`,
+        subject: `Terminbestaetigung: ${productLabel} Demo am ${format(berlinDate, 'dd.MM.yyyy')}`,
         html,
         icalEvent: {
           filename: 'termin.ics',
@@ -120,7 +122,8 @@ export class MailService {
       return;
     }
 
-    const dateFormatted = format(data.date, "dd.MM.yyyy 'um' HH:mm 'Uhr'", {
+    const berlinDate = toZonedTime(data.date, 'Europe/Berlin');
+    const dateFormatted = format(berlinDate, "dd.MM.yyyy 'um' HH:mm 'Uhr'", {
       locale: de,
     });
     const productLabel = PRODUCT_LABELS[data.productInterest];
