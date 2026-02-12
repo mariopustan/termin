@@ -14,13 +14,13 @@ export const PRODUCT_LABELS: Record<ProductInterest, string> = {
 
 export const PRODUCT_DESCRIPTIONS: Record<ProductInterest, string> = {
   [ProductInterest.ENTERPRISE_API]:
-    'Leistungsstarke API fuer nahtlose Systemintegration',
+    'Leistungsstarke API für nahtlose Systemintegration',
   [ProductInterest.HR_PAYROLL_INTEGRATION]:
-    'Anbindung an ueber 200 HR- und Payroll-Systeme',
+    'Anbindung an über 200 HR- und Payroll-Systeme',
   [ProductInterest.PORTALE]:
-    'Moderne Portale fuer Mitarbeiter und Arbeitgeber',
+    'Moderne Portale für Mitarbeiter und Arbeitgeber',
   [ProductInterest.PAYROLL_SCANNER]:
-    'Intelligenter Scanner fuer Gehaltsabrechnungen',
+    'Intelligenter Scanner für Gehaltsabrechnungen',
 };
 
 export interface BookingRequest {

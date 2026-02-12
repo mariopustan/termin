@@ -175,7 +175,7 @@ export class MailService {
     Hallo ${firstName},
   </p>
   <p style="color:rgba(255,255,255,0.8);font-size:15px;line-height:1.6;margin:0 0 30px;">
-    vielen Dank fuer Ihre Terminbuchung! Wir freuen uns, Ihnen unsere <strong style="color:#e87a1e;">${productLabel}</strong> vorzustellen.
+    vielen Dank für Ihre Terminbuchung! Wir freuen uns, Ihnen unsere <strong style="color:#e87a1e;">${productLabel}</strong> vorzustellen.
   </p>
 
   <!-- Appointment Details -->
@@ -203,12 +203,12 @@ export class MailService {
 
   <p style="color:rgba(255,255,255,0.6);font-size:14px;line-height:1.6;margin:0 0 20px;">
     Bitte klicken Sie zum Termin auf den Button oben, um dem Zoom-Meeting beizutreten.
-    Eine Kalendereinladung ist dieser E-Mail als .ics-Datei angehaengt.
+    Eine Kalendereinladung ist dieser E-Mail als .ics-Datei angehängt.
   </p>
 
   <!-- Cancellation Link -->
   <p style="color:rgba(255,255,255,0.4);font-size:13px;line-height:1.6;margin:0;">
-    Muessen Sie den Termin absagen? <a href="${cancellationUrl}" style="color:#8cced9;">Termin stornieren</a>
+    Müssen Sie den Termin absagen? <a href="${cancellationUrl}" style="color:#8cced9;">Termin stornieren</a>
   </p>
 </td></tr>
 

@@ -90,7 +90,7 @@ export class BookingFormComponent implements OnInit {
         this.submitting = false;
         if (err.status === 409) {
           this.error =
-            'Dieser Termin ist leider nicht mehr verfuegbar. Bitte waehlen Sie einen anderen Zeitpunkt.';
+            'Dieser Termin ist leider nicht mehr verfügbar. Bitte wählen Sie einen anderen Zeitpunkt.';
         } else if (err.status === 429) {
           this.error = 'Zu viele Anfragen. Bitte warten Sie einen Moment.';
         } else {
@@ -123,20 +123,20 @@ export class BookingFormComponent implements OnInit {
       },
       email: {
         required: 'E-Mail ist erforderlich',
-        email: 'Bitte geben Sie eine gueltige E-Mail ein',
+        email: 'Bitte geben Sie eine gültige E-Mail ein',
       },
       phone: {
         required: 'Telefonnummer ist erforderlich',
         minlength: 'Mindestens 6 Zeichen',
-        pattern: 'Bitte geben Sie eine gueltige Nummer ein',
+        pattern: 'Bitte geben Sie eine gültige Nummer ein',
       },
       consentGiven: {
-        required: 'Bitte stimmen Sie der Datenschutzerklaerung zu',
+        required: 'Bitte stimmen Sie der Datenschutzerklärung zu',
       },
     };
 
     const fieldErrors = errors[fieldName] || {};
     const firstErrorKey = Object.keys(control.errors)[0];
-    return fieldErrors[firstErrorKey] || 'Ungueltiger Wert';
+    return fieldErrors[firstErrorKey] || 'Ungültiger Wert';
   }
 }

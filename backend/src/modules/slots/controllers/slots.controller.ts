@@ -30,12 +30,12 @@ export class SlotsController {
 
     const date = parseISO(dateStr);
     if (!isValid(date)) {
-      throw new BadRequestException('Ungueltiges Datumsformat. Bitte verwenden Sie YYYY-MM-DD');
+      throw new BadRequestException('Ungültiges Datumsformat. Bitte verwenden Sie YYYY-MM-DD');
     }
 
     if (!this.slotCalculator.isDateInRange(date)) {
       throw new BadRequestException(
-        'Das Datum liegt ausserhalb des buchbaren Zeitraums',
+        'Das Datum liegt außerhalb des buchbaren Zeitraums',
       );
     }
 
@@ -81,12 +81,12 @@ export class SlotsController {
     const toDate = parseISO(toStr);
 
     if (!isValid(fromDate) || !isValid(toDate)) {
-      throw new BadRequestException('Ungueltiges Datumsformat');
+      throw new BadRequestException('Ungültiges Datumsformat');
     }
 
     if (!this.slotCalculator.isDateInRange(fromDate) || !this.slotCalculator.isDateInRange(toDate)) {
       throw new BadRequestException(
-        'Der Zeitraum liegt ausserhalb des buchbaren Bereichs',
+        'Der Zeitraum liegt außerhalb des buchbaren Bereichs',
       );
     }
 

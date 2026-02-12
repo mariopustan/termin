@@ -30,7 +30,7 @@ export class BookingController {
         productInterest: result.productInterest,
         zoomJoinUrl: result.zoomJoinUrl,
       },
-      message: `Ihr Termin wurde erfolgreich gebucht. Eine Bestaetigung wurde an Ihre E-Mail-Adresse gesendet.`,
+      message: `Ihr Termin wurde erfolgreich gebucht. Eine Bestätigung wurde an Ihre E-Mail-Adresse gesendet.`,
     };
   }
 

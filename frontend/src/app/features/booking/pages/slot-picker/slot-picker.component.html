@@ -1,8 +1,8 @@
 <section class="slot-picker">
   <!-- Hero -->
   <div class="hero">
-    <h1 class="hero__title">Buchen Sie Ihre <span class="hero__highlight">persoenliche Demo</span></h1>
-    <p class="hero__subtitle">Erleben Sie unsere Loesungen live in einer 30-minuetigen Online-Praesentation</p>
+    <h1 class="hero__title">Buchen Sie Ihre <span class="hero__highlight">persönliche Demo</span></h1>
+    <p class="hero__subtitle">Erleben Sie unsere Lösungen live in einer 30-minütigen Online-Präsentation</p>
   </div>
 
   <!-- Product Selection -->
@@ -28,7 +28,7 @@
   <!-- Calendar View (shown after product selection) -->
   @if (selectedProduct) {
     <div class="calendar" aria-live="polite">
-      <h2 class="section-title">Waehlen Sie einen Termin</h2>
+      <h2 class="section-title">Wählen Sie einen Termin</h2>
 
       <!-- Week Navigation -->
       <div class="calendar__nav">
@@ -44,7 +44,7 @@
           class="nav-btn"
           (click)="nextWeek()"
           [disabled]="!canGoNext()"
-          aria-label="Naechste Woche">
+          aria-label="Nächste Woche">
           &#8250;
         </button>
       </div>
@@ -95,10 +95,10 @@
       @if (selectedSlot) {
         <div class="calendar__confirm" aria-live="assertive">
           <p class="calendar__selected-info">
-            Gewaehlter Termin: <strong>{{ formatTime(selectedSlot.start) }} - {{ formatTime(selectedSlot.end) }} Uhr</strong>
+            Gewählter Termin: <strong>{{ formatTime(selectedSlot.start) }} - {{ formatTime(selectedSlot.end) }} Uhr</strong>
           </p>
           <button class="confirm-btn" (click)="confirmSelection()">
-            Termin auswaehlen
+            Termin auswählen
           </button>
         </div>
       }

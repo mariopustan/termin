@@ -50,7 +50,7 @@ export class BookingService {
     // Validate the slot is in range
     if (!this.slotCalculator.isDateInRange(slotStart)) {
       throw new BadRequestException(
-        'Der gewaehlte Termin liegt ausserhalb des buchbaren Zeitraums.',
+        'Der gewählte Termin liegt außerhalb des buchbaren Zeitraums.',
       );
     }
 
@@ -60,7 +60,7 @@ export class BookingService {
     const lockAcquired = await this.lockService.acquire(slotKey, 30000);
     if (!lockAcquired) {
       throw new ConflictException(
-        'Dieser Termin wird gerade von einer anderen Person gebucht. Bitte waehlen Sie einen anderen Zeitpunkt.',
+        'Dieser Termin wird gerade von einer anderen Person gebucht. Bitte wählen Sie einen anderen Zeitpunkt.',
       );
     }
 
@@ -75,7 +75,7 @@ export class BookingService {
 
       if (existingBooking) {
         throw new ConflictException(
-          'Dieser Termin ist leider nicht mehr verfuegbar. Bitte waehlen Sie einen anderen Zeitpunkt.',
+          'Dieser Termin ist leider nicht mehr verfügbar. Bitte wählen Sie einen anderen Zeitpunkt.',
         );
       }
 
