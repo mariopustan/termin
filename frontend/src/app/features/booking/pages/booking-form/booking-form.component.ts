@@ -1,8 +1,8 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Router, ActivatedRoute } from '@angular/router';
-import { format } from 'date-fns';
+import { Router, ActivatedRoute, RouterLink } from '@angular/router';
+import { format, addMinutes } from 'date-fns';
 import { de } from 'date-fns/locale';
 import { ApiService } from '../../../../core/services/api.service';
 import {
@@ -15,7 +15,7 @@ import {
 @Component({
   selector: 'app-booking-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, RouterLink],
   templateUrl: './booking-form.component.html',
   styleUrl: './booking-form.component.scss',
 })
@@ -26,6 +26,7 @@ export class BookingFormComponent implements OnInit {
   productLabel = '';
   dateFormatted = '';
   timeFormatted = '';
+  timeEndFormatted = '';
   submitting = false;
   error: string | null = null;
 
@@ -52,6 +53,7 @@ export class BookingFormComponent implements OnInit {
     const slotDate = new Date(this.selectedSlotStart);
     this.dateFormatted = format(slotDate, 'EEEE, dd. MMMM yyyy', { locale: de });
     this.timeFormatted = format(slotDate, 'HH:mm');
+    this.timeEndFormatted = format(addMinutes(slotDate, 30), 'HH:mm');
 
     this.form = this.fb.group({
       firstName: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(100)]],

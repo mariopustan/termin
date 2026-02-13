@@ -19,7 +19,7 @@
       </div>
       <div class="summary__item">
         <span class="summary__label">Uhrzeit</span>
-        <span class="summary__value">{{ timeFormatted }} - {{ timeFormatted }} Uhr (30 Min.)</span>
+        <span class="summary__value">{{ timeFormatted }} - {{ timeEndFormatted }} Uhr (30 Min.)</span>
       </div>
     </div>
 
@@ -129,7 +129,7 @@
             class="consent__checkbox" />
           <span class="consent__text">
             Ich habe die
-            <a href="https://www.it-warehouse.de/datenschutz" target="_blank" rel="noopener">Datenschutzerklärung</a>
+            <a routerLink="/datenschutz" target="_blank">Datenschutzerklärung</a>
             gelesen und bin mit der Verarbeitung meiner Daten einverstanden. *
           </span>
         </label>

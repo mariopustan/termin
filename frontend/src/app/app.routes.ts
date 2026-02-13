@@ -30,6 +30,13 @@ export const routes: Routes = [
       ),
   },
   {
+    path: 'datenschutz',
+    loadComponent: () =>
+      import('./features/booking/pages/privacy-policy/privacy-policy.component').then(
+        (m) => m.PrivacyPolicyComponent,
+      ),
+  },
+  {
     path: '**',
     redirectTo: '',
   },

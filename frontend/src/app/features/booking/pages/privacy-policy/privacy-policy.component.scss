@@ -1,0 +1,167 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.privacy {
+  @include container;
+  max-width: 820px;
+  padding-top: $spacing-2xl;
+  padding-bottom: $spacing-3xl;
+
+  &__back {
+    display: inline-flex;
+    align-items: center;
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    margin-bottom: $spacing-lg;
+    font-family: $font-family;
+    @include focus-visible;
+
+    &:hover {
+      color: $color-light-blue;
+    }
+  }
+
+  &__title {
+    font-size: $font-size-2xl;
+    font-weight: 700;
+    color: $color-text-primary;
+    margin-bottom: $spacing-xs;
+  }
+
+  &__subtitle {
+    font-size: $font-size-base;
+    color: $color-orange;
+    font-weight: 500;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__date {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+    margin-bottom: $spacing-2xl;
+  }
+}
+
+.section {
+  margin-bottom: $spacing-xl;
+
+  &__heading {
+    font-size: $font-size-lg;
+    font-weight: 600;
+    color: $color-text-primary;
+    margin-bottom: $spacing-md;
+    padding-bottom: $spacing-sm;
+    border-bottom: 1px solid $color-border;
+  }
+
+  &__subheading {
+    font-size: $font-size-base;
+    font-weight: 600;
+    color: $color-text-primary;
+    margin-top: $spacing-lg;
+    margin-bottom: $spacing-sm;
+  }
+}
+
+.content {
+  font-size: $font-size-sm;
+  line-height: 1.7;
+  color: $color-text-secondary;
+
+  p {
+    margin-bottom: $spacing-md;
+  }
+
+  strong {
+    color: $color-text-primary;
+    font-weight: 600;
+  }
+
+  a {
+    color: $color-light-blue;
+    @include focus-visible;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  ul {
+    margin: $spacing-sm 0 $spacing-md $spacing-lg;
+    padding: 0;
+
+    li {
+      margin-bottom: $spacing-xs;
+    }
+  }
+}
+
+.address-block {
+  @include glass-card;
+  padding: $spacing-md $spacing-lg;
+  margin: $spacing-md 0;
+  font-size: $font-size-sm;
+  line-height: 1.8;
+  color: $color-text-secondary;
+
+  strong {
+    color: $color-text-primary;
+  }
+
+  a {
+    color: $color-light-blue;
+    @include focus-visible;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.recipients-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: $spacing-md 0;
+  font-size: $font-size-sm;
+
+  th, td {
+    text-align: left;
+    padding: $spacing-sm $spacing-md;
+    border-bottom: 1px solid $color-border;
+    color: $color-text-secondary;
+  }
+
+  th {
+    color: $color-text-muted;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: $font-size-xs;
+  }
+
+  @include mobile {
+    font-size: $font-size-xs;
+
+    th, td {
+      padding: $spacing-xs $spacing-sm;
+    }
+  }
+}
+
+.highlight-box {
+  @include glass-card;
+  border-color: rgba($color-orange, 0.3);
+  padding: $spacing-md $spacing-lg;
+  margin: $spacing-md 0;
+  font-size: $font-size-sm;
+  line-height: 1.7;
+  color: $color-text-secondary;
+
+  strong {
+    color: $color-text-primary;
+  }
+}
