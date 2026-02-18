@@ -1,6 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { format, addDays, startOfWeek } from 'date-fns';
 import { de } from 'date-fns/locale';
 import { ApiService } from '../../../../core/services/api.service';
@@ -52,6 +52,12 @@ export class SlotPickerComponent implements OnInit {
       description: PRODUCT_DESCRIPTIONS[ProductInterest.PAYROLL_SCANNER],
       icon: 'Scan',
     },
+    {
+      id: ProductInterest.AI_ACT_TRAINING,
+      label: PRODUCT_LABELS[ProductInterest.AI_ACT_TRAINING],
+      description: PRODUCT_DESCRIPTIONS[ProductInterest.AI_ACT_TRAINING],
+      icon: 'AI',
+    },
   ];
 
   selectedProduct: ProductInterest | null = null;
@@ -64,6 +70,7 @@ export class SlotPickerComponent implements OnInit {
   constructor(
     private readonly api: ApiService,
     private readonly router: Router,
+    private readonly route: ActivatedRoute,
     private readonly cdr: ChangeDetectorRef,
   ) {}
 
@@ -72,6 +79,12 @@ export class SlotPickerComponent implements OnInit {
     this.currentWeekStart = startOfWeek(today, { weekStartsOn: 1 });
     if (today > this.currentWeekStart) {
       this.currentWeekStart = startOfWeek(today, { weekStartsOn: 1 });
+    }
+
+    // Auto-select product from query parameter (e.g. ?product=ai_act_training)
+    const productParam = this.route.snapshot.queryParams['product'];
+    if (productParam && Object.values(ProductInterest).includes(productParam as ProductInterest)) {
+      this.selectProduct(productParam as ProductInterest);
     }
   }
 

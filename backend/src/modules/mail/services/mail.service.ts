@@ -11,6 +11,7 @@ const PRODUCT_LABELS: Record<ProductInterest, string> = {
   [ProductInterest.HR_PAYROLL_INTEGRATION]: 'HR & Payroll Integration',
   [ProductInterest.PORTALE]: 'Mitarbeiter- & Arbeitgeberportal',
   [ProductInterest.PAYROLL_SCANNER]: 'Gehaltsabrechnungs-Scanner',
+  [ProductInterest.AI_ACT_TRAINING]: 'EU AI Act Training',
 };
 
 export interface BookingConfirmationData {

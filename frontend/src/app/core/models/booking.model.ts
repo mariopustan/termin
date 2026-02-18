@@ -3,6 +3,7 @@ export enum ProductInterest {
   HR_PAYROLL_INTEGRATION = 'hr_payroll_integration',
   PORTALE = 'portale',
   PAYROLL_SCANNER = 'payroll_scanner',
+  AI_ACT_TRAINING = 'ai_act_training',
 }
 
 export const PRODUCT_LABELS: Record<ProductInterest, string> = {
@@ -10,6 +11,7 @@ export const PRODUCT_LABELS: Record<ProductInterest, string> = {
   [ProductInterest.HR_PAYROLL_INTEGRATION]: 'HR & Payroll Integration',
   [ProductInterest.PORTALE]: 'Mitarbeiter- & Arbeitgeberportal',
   [ProductInterest.PAYROLL_SCANNER]: 'Gehaltsabrechnungs-Scanner',
+  [ProductInterest.AI_ACT_TRAINING]: 'EU AI Act Training',
 };
 
 export const PRODUCT_DESCRIPTIONS: Record<ProductInterest, string> = {
@@ -21,6 +23,8 @@ export const PRODUCT_DESCRIPTIONS: Record<ProductInterest, string> = {
     'Moderne Portale für Mitarbeiter und Arbeitgeber',
   [ProductInterest.PAYROLL_SCANNER]:
     'Intelligenter Scanner für Gehaltsabrechnungen',
+  [ProductInterest.AI_ACT_TRAINING]:
+    'KI-Kompetenzschulung nach EU AI Act Artikel 4',
 };
 
 export interface BookingRequest {

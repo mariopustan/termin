@@ -10,4 +10,5 @@ export enum ProductInterest {
   HR_PAYROLL_INTEGRATION = 'hr_payroll_integration',
   PORTALE = 'portale',
   PAYROLL_SCANNER = 'payroll_scanner',
+  AI_ACT_TRAINING = 'ai_act_training',
 }
