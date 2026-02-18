@@ -81,8 +81,11 @@ server {
         access_log off;
     }
 
-    # Angular SPA - catch-all
+    # Angular SPA - catch-all (with CSP nonce injection)
     location / {
+        sub_filter_once off;
+        sub_filter 'SERVER_CSP_NONCE' '$request_id';
+
         include /etc/nginx/snippets/security-headers-termin.conf;
         add_header Cache-Control "no-cache";
         try_files $uri $uri/ /index.html;

@@ -14,6 +14,10 @@
   <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
 </head>
 <body>
-  <app-root></app-root>
+  <app-root ngCspNonce="SERVER_CSP_NONCE"></app-root>
+
+  <!-- Visitor Tracking – DSGVO-konformes Consent Banner + Matomo (Site-ID: 2) -->
+  <link rel="stylesheet" href="assets/tracking/consent-banner.css">
+  <script src="assets/tracking/matomo-tracking.js"></script>
 </body>
 </html>
