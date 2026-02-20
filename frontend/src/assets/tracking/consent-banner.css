@@ -1,0 +1,129 @@
+/* =============================================================================
+ * Consent Banner – DSGVO-konformes Cookie-Banner
+ * IT Warehouse AG Corporate Identity
+ * Farben: Orange #E88B1C, Dunkelblau #1A3A5C, Hellgrau #F5F5F5
+ * Schrift: Open Sans, Fallback Arial
+ * ============================================================================= */
+
+#vt-consent-banner {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    z-index: 99999;
+    background: #FFFFFF;
+    border-top: 3px solid #1A3A5C;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.15);
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #333333;
+    padding: 20px;
+}
+
+#vt-consent-banner.vt-visible {
+    display: block;
+}
+
+.vt-consent-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.vt-consent-text {
+    flex: 1;
+    min-width: 300px;
+}
+
+.vt-consent-text h3 {
+    margin: 0 0 8px 0;
+    font-size: 16px;
+    font-weight: 700;
+    color: #1A3A5C;
+}
+
+.vt-consent-text p {
+    margin: 0;
+    color: #333333;
+}
+
+.vt-consent-text a {
+    color: #1A3A5C;
+    text-decoration: underline;
+}
+
+.vt-consent-text a:hover {
+    color: #E88B1C;
+}
+
+.vt-consent-buttons {
+    display: flex;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.vt-btn-accept {
+    background: #E88B1C;
+    color: #FFFFFF;
+    border: none;
+    padding: 10px 24px;
+    border-radius: 4px;
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.vt-btn-accept:hover {
+    background: #d07a15;
+}
+
+.vt-btn-accept:focus {
+    outline: 2px solid #1A3A5C;
+    outline-offset: 2px;
+}
+
+.vt-btn-decline {
+    background: transparent;
+    color: #1A3A5C;
+    border: 2px solid #1A3A5C;
+    padding: 8px 24px;
+    border-radius: 4px;
+    font-family: 'Open Sans', Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.vt-btn-decline:hover {
+    background: #F5F5F5;
+}
+
+.vt-btn-decline:focus {
+    outline: 2px solid #E88B1C;
+    outline-offset: 2px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .vt-consent-inner {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .vt-consent-buttons {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .vt-consent-text {
+        min-width: unset;
+    }
+}
