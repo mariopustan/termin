@@ -17,6 +17,7 @@ import { NextcloudCalendarService } from '../../calendar-sync/services/nextcloud
 import { MailService } from '../../mail/services/mail.service';
 import { CalendarSyncScheduler } from '../../calendar-sync/services/calendar-sync.scheduler';
 import { SlotCalculatorService } from '../../slots/services/slot-calculator.service';
+import { ContactService } from '../../contact/services/contact.service';
 
 export interface BookingResult {
   bookingId: string;
@@ -41,6 +42,7 @@ export class BookingService {
     private readonly mailService: MailService,
     private readonly calendarSync: CalendarSyncScheduler,
     private readonly slotCalculator: SlotCalculatorService,
+    private readonly contactService: ContactService,
   ) {}
 
   async createBooking(dto: CreateBookingDto): Promise<BookingResult> {
@@ -168,6 +170,19 @@ export class BookingService {
       // 8. Invalidate slot cache
       await this.calendarSync.invalidateCache();
 
+      // 9. Save/update contact for caller recognition
+      try {
+        await this.contactService.createOrUpdateFromBooking(
+          dto.phone,
+          dto.firstName,
+          dto.lastName,
+          dto.companyName,
+          dto.email,
+        );
+      } catch (error) {
+        this.logger.error('Failed to save contact', error);
+      }
+
       this.logger.log(
         `Booking created: ${booking.id} for ${dto.email} at ${slotStart.toISOString()}`,
       );
@@ -181,7 +196,7 @@ export class BookingService {
         zoomJoinUrl: zoomMeeting.join_url,
       };
     } finally {
-      // 9. Always release the lock
+      // 10. Always release the lock
       await this.lockService.release(slotKey);
     }
   }

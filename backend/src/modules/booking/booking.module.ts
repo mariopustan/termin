@@ -8,6 +8,7 @@ import { ZoomModule } from '../zoom/zoom.module';
 import { CalendarSyncModule } from '../calendar-sync/calendar-sync.module';
 import { MailModule } from '../mail/mail.module';
 import { SlotsModule } from '../slots/slots.module';
+import { ContactModule } from '../contact/contact.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { SlotsModule } from '../slots/slots.module';
     CalendarSyncModule,
     MailModule,
     SlotsModule,
+    ContactModule,
   ],
   controllers: [BookingController],
   providers: [BookingService, BookingLockService],

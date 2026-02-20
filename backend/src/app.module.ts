@@ -16,7 +16,9 @@ import {
 } from './common/config';
 import { ApiKeyGuard } from './common/guards/api-key.guard';
 import { Booking } from './modules/booking/entities/booking.entity';
+import { Contact } from './modules/contact/entities/contact.entity';
 import { HealthModule } from './modules/health/health.module';
+import { ContactModule } from './modules/contact/contact.module';
 import { CalendarSyncModule } from './modules/calendar-sync/calendar-sync.module';
 import { SlotsModule } from './modules/slots/slots.module';
 import { BookingModule } from './modules/booking/booking.module';
@@ -54,7 +56,7 @@ import { MailModule } from './modules/mail/mail.module';
         username: config.get<string>('database.username'),
         password: config.get<string>('database.password'),
         database: config.get<string>('database.database'),
-        entities: [Booking],
+        entities: [Booking, Contact],
         synchronize: true,
         logging: config.get<string>('app.environment') === 'development',
         ssl: false,
@@ -76,6 +78,7 @@ import { MailModule } from './modules/mail/mail.module';
     SlotsModule,
     ZoomModule,
     MailModule,
+    ContactModule,
     BookingModule,
   ],
 })
