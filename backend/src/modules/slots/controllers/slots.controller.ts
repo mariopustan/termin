@@ -66,6 +66,43 @@ export class SlotsController {
     };
   }
 
+  @Get('available')
+  async getAvailableSlots(): Promise<SlotsRangeResponse> {
+    const today = new Date();
+    const fromDate = today;
+    const toDate = addDays(today, 7);
+
+    const busyPeriods = await this.calendarSync.getBusyPeriods();
+
+    const rangeStart = new Date(format(fromDate, 'yyyy-MM-dd') + 'T00:00:00');
+    const rangeEnd = new Date(format(toDate, 'yyyy-MM-dd') + 'T23:59:59');
+
+    const existingBookings = await this.bookingRepository.find({
+      where: {
+        slotStart: Between(rangeStart, rangeEnd),
+        status: Not(BookingStatus.CANCELLED),
+      },
+    });
+
+    const days = eachDayOfInterval({ start: fromDate, end: toDate });
+
+    const allDaySlots: DaySlots[] = days
+      .map((day) =>
+        this.slotCalculator.calculateAvailableSlots(day, busyPeriods, existingBookings),
+      )
+      .filter((day) => day.totalAvailable > 0);
+
+    return {
+      data: allDaySlots,
+      meta: {
+        lastSyncAt: this.calendarSync.getLastSyncAt()?.toISOString() || null,
+        timezone: 'Europe/Berlin',
+        from: format(fromDate, 'yyyy-MM-dd'),
+        to: format(toDate, 'yyyy-MM-dd'),
+      },
+    };
+  }
+
   @Get('range')
   async getSlotsRange(
     @Query('from') fromStr: string,

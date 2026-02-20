@@ -5,5 +5,6 @@ export {
   caldavConfig,
   zoomConfig,
   mailConfig,
+  apiKeyConfig,
   slotConfig,
 } from './app.config';

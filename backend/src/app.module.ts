@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { ScheduleModule } from '@nestjs/schedule';
+import { APP_GUARD } from '@nestjs/core';
 import {
   appConfig,
   databaseConfig,
@@ -10,8 +11,10 @@ import {
   caldavConfig,
   zoomConfig,
   mailConfig,
+  apiKeyConfig,
   slotConfig,
 } from './common/config';
+import { ApiKeyGuard } from './common/guards/api-key.guard';
 import { Booking } from './modules/booking/entities/booking.entity';
 import { HealthModule } from './modules/health/health.module';
 import { CalendarSyncModule } from './modules/calendar-sync/calendar-sync.module';
@@ -21,6 +24,12 @@ import { ZoomModule } from './modules/zoom/zoom.module';
 import { MailModule } from './modules/mail/mail.module';
 
 @Module({
+  providers: [
+    {
+      provide: APP_GUARD,
+      useClass: ApiKeyGuard,
+    },
+  ],
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
@@ -31,6 +40,7 @@ import { MailModule } from './modules/mail/mail.module';
         caldavConfig,
         zoomConfig,
         mailConfig,
+        apiKeyConfig,
         slotConfig,
       ],
     }),

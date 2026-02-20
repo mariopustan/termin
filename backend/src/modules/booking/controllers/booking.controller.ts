@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { BookingService } from '../services/booking.service';
 import { CreateBookingDto } from '../dto/create-booking.dto';
+import { Public } from '../../../common/decorators/public.decorator';
 import { format } from 'date-fns';
 
 @Controller('bookings')
@@ -34,6 +35,7 @@ export class BookingController {
     };
   }
 
+  @Public()
   @Get('cancel/:token')
   async getCancellationInfo(@Param('token') token: string) {
     const booking =
@@ -56,6 +58,7 @@ export class BookingController {
     };
   }
 
+  @Public()
   @Post('cancel/:token')
   @HttpCode(HttpStatus.OK)
   async cancelBooking(@Param('token') token: string) {

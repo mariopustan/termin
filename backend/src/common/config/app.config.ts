@@ -54,6 +54,10 @@ export const mailConfig = registerAs('mail', () => ({
   internalRecipient: process.env.MAIL_INTERNAL_RECIPIENT || '',
 }));
 
+export const apiKeyConfig = registerAs('apiKey', () => ({
+  key: process.env.API_KEY || '',
+}));
+
 export const slotConfig = registerAs('slot', () => ({
   durationMinutes: 30,
   dayStartHour: 9,
