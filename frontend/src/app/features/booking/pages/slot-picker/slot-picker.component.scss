@@ -74,11 +74,22 @@
   border: 1px solid transparent;
   text-align: center;
   min-height: $touch-target-min;
+  position: relative;
   @include focus-visible;
+
+  // Staggered entrance animation
+  opacity: 0;
+  animation: cardEnter 0.4s $easing-default forwards;
+
+  @for $i from 1 through 6 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{($i - 1) * 80}ms;
+    }
+  }
 
   &:hover {
     border-color: $color-border-hover;
-    transform: translateY(-2px);
+    transform: translateY(-4px);
     box-shadow: $shadow-glow-blue;
   }
 
@@ -93,6 +104,11 @@
     font-weight: 700;
     color: $color-orange;
     margin-bottom: $spacing-xs;
+    transition: transform $duration-normal $easing-default;
+  }
+
+  &:hover &__icon {
+    transform: scale(1.15);
   }
 
   &__label {
@@ -105,6 +121,52 @@
     font-size: $font-size-sm;
     color: $color-text-muted;
     line-height: 1.4;
+  }
+
+  // Tooltip
+  &__tooltip {
+    position: absolute;
+    bottom: calc(100% + 10px);
+    left: 50%;
+    transform: translateX(-50%) translateY(6px);
+    background: $color-bg-elevated;
+    border: 1px solid $color-border-hover;
+    border-radius: $radius-sm;
+    padding: $spacing-sm $spacing-md;
+    font-size: $font-size-xs;
+    color: $color-text-secondary;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity $duration-fast $easing-default, transform $duration-fast $easing-default;
+    z-index: 10;
+    box-shadow: $shadow-md;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      border: 6px solid transparent;
+      border-top-color: $color-border-hover;
+    }
+  }
+
+  &:hover &__tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes cardEnter {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -180,6 +242,16 @@
   @include glass-card;
   overflow: hidden;
 
+  // Staggered entrance
+  opacity: 0;
+  animation: cardEnter 0.35s $easing-default forwards;
+
+  @for $i from 1 through 5 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{($i - 1) * 60}ms;
+    }
+  }
+
   &__header {
     display: flex;
     flex-direction: column;
@@ -216,6 +288,83 @@
     text-align: center;
     padding: $spacing-lg $spacing-sm;
   }
+}
+
+// Skeleton Loading
+.skeleton-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: $spacing-md;
+  margin-bottom: $spacing-xl;
+
+  @include tablet {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @include mobile {
+    grid-template-columns: 1fr;
+  }
+}
+
+.skeleton-column {
+  @include glass-card;
+  overflow: hidden;
+  opacity: 0;
+  animation: cardEnter 0.3s $easing-default forwards;
+
+  @for $i from 1 through 5 {
+    &:nth-child(#{$i}) {
+      animation-delay: #{($i - 1) * 60}ms;
+    }
+  }
+
+  &__header {
+    padding: $spacing-md;
+    border-bottom: 1px solid $color-border;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-xs;
+  }
+
+  &__slots {
+    padding: $spacing-sm;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+  }
+}
+
+.skeleton-bar {
+  background: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0.04) 25%,
+    rgba(255, 255, 255, 0.08) 50%,
+    rgba(255, 255, 255, 0.04) 75%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s ease-in-out infinite;
+  border-radius: $radius-sm;
+
+  &--sm {
+    height: 12px;
+    width: 60px;
+  }
+
+  &--xs {
+    height: 10px;
+    width: 44px;
+  }
+
+  &--slot {
+    height: $touch-target-min;
+    width: 100%;
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 // Slot Button
@@ -275,8 +424,23 @@
 
 // Reduced motion
 @include reduced-motion {
+  .product-card,
+  .day-column,
+  .skeleton-column {
+    opacity: 1;
+    animation: none;
+  }
+
   .product-card:hover,
   .slot-btn:hover {
     transform: none;
+  }
+
+  .product-card:hover .product-card__icon {
+    transform: none;
+  }
+
+  .skeleton-bar {
+    animation: none;
   }
 }

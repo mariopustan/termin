@@ -79,21 +79,77 @@
     grid-column: 1 / -1;
   }
 
+  // Floating label wrapper
+  &__floating {
+    position: relative;
+  }
+
   &__label {
-    display: block;
-    font-size: $font-size-sm;
-    font-weight: 600;
-    color: $color-text-secondary;
-    margin-bottom: $spacing-xs;
+    position: absolute;
+    left: $spacing-md;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: $font-size-base;
+    font-weight: 500;
+    color: $color-text-muted;
+    pointer-events: none;
+    transition: all $duration-fast $easing-default;
+    transform-origin: left center;
+  }
+
+  // When textarea, label starts at top
+  &__textarea ~ &__label {
+    top: 16px;
+    transform: translateY(0);
   }
 
   &__input {
     @include input-field;
+    padding-top: 20px;
+    padding-bottom: 8px;
+
+    // Float the label when focused or has content
+    &:focus ~ .form-field__label,
+    &:not(:placeholder-shown) ~ .form-field__label {
+      top: 8px;
+      transform: translateY(0);
+      font-size: $font-size-xs;
+      color: $color-orange;
+      font-weight: 600;
+    }
+
+    // Animated underline on focus
+    &:focus {
+      border-color: $color-orange;
+      box-shadow: 0 0 0 3px rgba(232, 122, 30, 0.1), inset 0 -2px 0 $color-orange;
+    }
+
+    &.ng-valid.ng-touched:not(:focus) {
+      border-color: rgba($color-success, 0.4);
+
+      & ~ .form-field__label {
+        color: $color-success;
+      }
+    }
+
+    &.ng-invalid.ng-touched {
+      border-color: $color-error;
+
+      & ~ .form-field__label {
+        color: $color-error;
+      }
+    }
   }
 
   &__textarea {
     resize: vertical;
     min-height: 80px;
+    padding-top: 28px !important;
+
+    &:focus ~ .form-field__label,
+    &:not(:placeholder-shown) ~ .form-field__label {
+      top: 6px;
+    }
   }
 
   &__error {
@@ -101,6 +157,18 @@
     font-size: $font-size-xs;
     color: $color-error;
     margin-top: $spacing-xs;
+    animation: errorSlide 0.2s $easing-default;
+  }
+}
+
+@keyframes errorSlide {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
@@ -182,4 +250,13 @@
   color: $color-error;
   text-align: center;
   font-size: $font-size-sm;
+  animation: errorSlide 0.3s $easing-default;
+}
+
+// Reduced motion
+@include reduced-motion {
+  .form-field__error,
+  .error-banner {
+    animation: none;
+  }
 }

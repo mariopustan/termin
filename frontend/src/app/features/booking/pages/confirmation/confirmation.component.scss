@@ -7,12 +7,20 @@
   padding-top: $spacing-3xl;
   padding-bottom: $spacing-3xl;
   text-align: center;
+  position: relative;
+
+  &__container {
+    position: relative;
+    z-index: 1;
+  }
 
   &__title {
     font-size: $font-size-2xl;
     font-weight: 700;
     color: $color-text-primary;
     margin-bottom: $spacing-md;
+    opacity: 0;
+    animation: fadeUp 0.5s 0.6s $easing-default forwards;
   }
 
   &__subtitle {
@@ -20,16 +28,28 @@
     color: $color-text-secondary;
     margin-bottom: $spacing-xl;
     line-height: 1.6;
+    opacity: 0;
+    animation: fadeUp 0.5s 0.8s $easing-default forwards;
   }
 }
 
-// Success Icon
+// Confetti Canvas
+.confetti-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 100;
+}
+
+// Success Icon with animated SVG
 .success-icon {
-  width: 80px;
-  height: 80px;
+  width: 88px;
+  height: 88px;
   border-radius: 50%;
-  background: rgba($color-success, 0.15);
-  border: 2px solid $color-success;
+  background: rgba($color-success, 0.1);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -37,20 +57,64 @@
   animation: scaleIn 0.5s $easing-default;
 
   svg {
-    width: 40px;
-    height: 40px;
+    width: 52px;
+    height: 52px;
     color: $color-success;
+  }
+
+  &__circle {
+    stroke-dasharray: 151;
+    stroke-dashoffset: 151;
+    animation: drawCircle 0.6s 0.2s $easing-default forwards;
+    opacity: 0.3;
+  }
+
+  &__check {
+    stroke-dasharray: 36;
+    stroke-dashoffset: 36;
+    animation: drawCheck 0.4s 0.7s $easing-default forwards;
   }
 }
 
 @keyframes scaleIn {
   0% { transform: scale(0); opacity: 0; }
-  60% { transform: scale(1.1); }
+  60% { transform: scale(1.08); }
   100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes drawCircle {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes drawCheck {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 @include reduced-motion {
   .success-icon {
+    animation: none;
+  }
+
+  .success-icon__circle,
+  .success-icon__check {
+    stroke-dashoffset: 0;
+    animation: none;
+  }
+
+  .confirmation__title,
+  .confirmation__subtitle {
+    opacity: 1;
     animation: none;
   }
 }
@@ -61,6 +125,8 @@
   padding: $spacing-lg;
   margin-bottom: $spacing-xl;
   text-align: left;
+  opacity: 0;
+  animation: fadeUp 0.5s 1s $easing-default forwards;
 
   &__row {
     display: flex;
@@ -110,6 +176,8 @@
   font-size: $font-size-lg;
   padding: 16px $spacing-2xl;
   margin-bottom: $spacing-xl;
+  opacity: 0;
+  animation: fadeUp 0.5s 1.1s $easing-default forwards;
 }
 
 // Info Box
@@ -117,6 +185,8 @@
   @include glass-card;
   padding: $spacing-lg;
   margin-bottom: $spacing-xl;
+  opacity: 0;
+  animation: fadeUp 0.5s 1.2s $easing-default forwards;
 
   p {
     font-size: $font-size-sm;

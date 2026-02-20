@@ -1,7 +1,7 @@
 <section class="slot-picker">
   <!-- Hero -->
   <div class="hero">
-    <h1 class="hero__title">Buchen Sie Ihre <span class="hero__highlight">persönliche Demo</span></h1>
+    <h1 class="hero__title">Bitte buchen Sie ganz einfach Ihr persönliches <span class="hero__highlight">Strategiegespräch</span> mit unserem Management bzw. Ihre individuelle und ganz persönliche Demo</h1>
     <p class="hero__subtitle">Erleben Sie unsere Lösungen live in einer 30-minütigen Online-Präsentation</p>
   </div>
 
@@ -17,9 +17,12 @@
           [attr.aria-pressed]="selectedProduct === product.id"
           role="radio"
           [attr.aria-checked]="selectedProduct === product.id">
-          <span class="product-card__icon">{{ product.icon }}</span>
+          <span class="product-card__icon" aria-hidden="true">{{ product.icon }}</span>
           <span class="product-card__label">{{ product.label }}</span>
           <span class="product-card__description">{{ product.description }}</span>
+          @if (product.tooltip) {
+            <span class="product-card__tooltip" aria-hidden="true">{{ product.tooltip }}</span>
+          }
         </button>
       }
     </div>
@@ -49,9 +52,23 @@
         </button>
       </div>
 
-      <!-- Loading -->
+      <!-- Skeleton Loading -->
       @if (loading) {
-        <app-loading-spinner />
+        <div class="skeleton-grid" aria-label="Termine werden geladen" role="status">
+          @for (day of [1,2,3,4,5]; track day) {
+            <div class="skeleton-column">
+              <div class="skeleton-column__header">
+                <div class="skeleton-bar skeleton-bar--sm"></div>
+                <div class="skeleton-bar skeleton-bar--xs"></div>
+              </div>
+              <div class="skeleton-column__slots">
+                @for (slot of [1,2,3,4]; track slot) {
+                  <div class="skeleton-bar skeleton-bar--slot"></div>
+                }
+              </div>
+            </div>
+          }
+        </div>
       }
 
       <!-- Error -->

@@ -10,19 +10,18 @@ import {
   PRODUCT_DESCRIPTIONS,
 } from '../../../../core/models/booking.model';
 import { DaySlots, TimeSlot } from '../../../../core/models/time-slot.model';
-import { LoadingSpinnerComponent } from '../../../../shared/components/loading-spinner/loading-spinner.component';
-
 interface ProductCard {
   id: ProductInterest;
   label: string;
   description: string;
   icon: string;
+  tooltip?: string;
 }
 
 @Component({
   selector: 'app-slot-picker',
   standalone: true,
-  imports: [CommonModule, LoadingSpinnerComponent],
+  imports: [CommonModule],
   templateUrl: './slot-picker.component.html',
   styleUrl: './slot-picker.component.scss',
 })
@@ -33,30 +32,35 @@ export class SlotPickerComponent implements OnInit {
       label: PRODUCT_LABELS[ProductInterest.ENTERPRISE_API],
       description: PRODUCT_DESCRIPTIONS[ProductInterest.ENTERPRISE_API],
       icon: '{ }',
+      tooltip: 'RESTful API mit voller Dokumentation',
     },
     {
       id: ProductInterest.HR_PAYROLL_INTEGRATION,
       label: PRODUCT_LABELS[ProductInterest.HR_PAYROLL_INTEGRATION],
       description: PRODUCT_DESCRIPTIONS[ProductInterest.HR_PAYROLL_INTEGRATION],
       icon: '200+',
+      tooltip: 'Über 200 HR-Systeme anbindbar',
     },
     {
       id: ProductInterest.PORTALE,
       label: PRODUCT_LABELS[ProductInterest.PORTALE],
       description: PRODUCT_DESCRIPTIONS[ProductInterest.PORTALE],
       icon: 'Portal',
+      tooltip: 'White-Label Portallösungen',
     },
     {
       id: ProductInterest.PAYROLL_SCANNER,
       label: PRODUCT_LABELS[ProductInterest.PAYROLL_SCANNER],
       description: PRODUCT_DESCRIPTIONS[ProductInterest.PAYROLL_SCANNER],
       icon: 'Scan',
+      tooltip: 'KI-gestützte Dokumentenerkennung',
     },
     {
       id: ProductInterest.AI_ACT_TRAINING,
       label: PRODUCT_LABELS[ProductInterest.AI_ACT_TRAINING],
       description: PRODUCT_DESCRIPTIONS[ProductInterest.AI_ACT_TRAINING],
       icon: 'AI',
+      tooltip: 'Zertifiziertes Schulungsprogramm',
     },
   ];
 
