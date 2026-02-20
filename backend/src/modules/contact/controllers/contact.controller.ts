@@ -105,7 +105,9 @@ export class ContactController {
   }
 
   // ─── Admin CRUD Endpoints (JWT-protected) ──────────────────────
+  // @Public() bypasses the global ApiKeyGuard; JwtAuthGuard handles auth.
 
+  @Public()
   @UseGuards(JwtAuthGuard)
   @Get()
   async findAll(
@@ -120,18 +122,21 @@ export class ContactController {
     );
   }
 
+  @Public()
   @UseGuards(JwtAuthGuard)
   @Get(':id')
   async findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.contactService.findById(id);
   }
 
+  @Public()
   @UseGuards(JwtAuthGuard)
   @Post('create')
   async create(@Body() dto: CreateContactDto) {
     return this.contactService.create(dto);
   }
 
+  @Public()
   @UseGuards(JwtAuthGuard)
   @Patch(':id')
   async update(
@@ -141,6 +146,7 @@ export class ContactController {
     return this.contactService.update(id, dto);
   }
 
+  @Public()
   @UseGuards(JwtAuthGuard)
   @Delete(':id')
   async remove(@Param('id', ParseUUIDPipe) id: string) {
