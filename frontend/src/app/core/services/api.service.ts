@@ -7,6 +7,7 @@ import {
   BookingResponse,
   CancellationInfo,
 } from '../models/booking.model';
+import { Contact, ContactListResponse, ContactRequest } from '../models/contact.model';
 
 @Injectable({
   providedIn: 'root',
@@ -46,5 +47,33 @@ export class ApiService {
       `${this.baseUrl}/bookings/cancel/${token}`,
       {},
     );
+  }
+
+  // ─── Contact Admin API ──────────────────────
+
+  getContacts(search?: string, page = 1, limit = 20): Observable<ContactListResponse> {
+    let params = new HttpParams()
+      .set('page', page.toString())
+      .set('limit', limit.toString());
+    if (search) {
+      params = params.set('search', search);
+    }
+    return this.http.get<ContactListResponse>(`${this.baseUrl}/contacts`, { params });
+  }
+
+  getContact(id: string): Observable<Contact> {
+    return this.http.get<Contact>(`${this.baseUrl}/contacts/${id}`);
+  }
+
+  createContact(data: ContactRequest): Observable<Contact> {
+    return this.http.post<Contact>(`${this.baseUrl}/contacts/create`, data);
+  }
+
+  updateContact(id: string, data: Partial<ContactRequest>): Observable<Contact> {
+    return this.http.patch<Contact>(`${this.baseUrl}/contacts/${id}`, data);
+  }
+
+  deleteContact(id: string): Observable<{ message: string }> {
+    return this.http.delete<{ message: string }>(`${this.baseUrl}/contacts/${id}`);
   }
 }

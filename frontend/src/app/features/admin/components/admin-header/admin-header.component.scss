@@ -1,0 +1,73 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.admin-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba($color-bg-primary, 0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid $color-border;
+
+  &__container {
+    @include container;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  &__left {
+    display: flex;
+    align-items: center;
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+    text-decoration: none;
+    color: $color-text-primary;
+    font-weight: 700;
+    font-size: $font-size-lg;
+  }
+
+  &__logo-icon {
+    font-size: 24px;
+    color: $color-orange;
+  }
+
+  &__nav {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+  }
+
+  &__link {
+    color: $color-text-secondary;
+    text-decoration: none;
+    font-size: $font-size-sm;
+    transition: color $duration-fast $easing-default;
+
+    &:hover {
+      color: $color-light-blue;
+    }
+  }
+
+  &__logout {
+    @include button-base;
+    padding: 8px $spacing-md;
+    min-height: 36px;
+    font-size: $font-size-sm;
+    background: rgba(255, 255, 255, 0.05);
+    color: $color-text-secondary;
+    border: 1px solid $color-border;
+    border-radius: $radius-sm;
+
+    &:hover {
+      border-color: $color-error;
+      color: $color-error;
+      background: rgba($color-error, 0.1);
+    }
+  }
+}

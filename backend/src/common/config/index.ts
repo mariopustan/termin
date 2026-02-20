@@ -6,5 +6,6 @@ export {
   zoomConfig,
   mailConfig,
   apiKeyConfig,
+  jwtConfig,
   slotConfig,
 } from './app.config';

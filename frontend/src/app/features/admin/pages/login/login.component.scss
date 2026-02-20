@@ -1,0 +1,92 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.login-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: $color-bg-gradient;
+  padding: $spacing-md;
+}
+
+.login-card {
+  @include glass-card;
+  width: 100%;
+  max-width: 420px;
+  padding: $spacing-2xl;
+
+  @include mobile {
+    padding: $spacing-lg;
+  }
+
+  &__header {
+    text-align: center;
+    margin-bottom: $spacing-xl;
+  }
+
+  &__icon {
+    font-size: 48px;
+    display: block;
+    margin-bottom: $spacing-md;
+  }
+
+  &__title {
+    font-size: $font-size-2xl;
+    font-weight: 700;
+    color: $color-text-primary;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__subtitle {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+  }
+
+  &__error {
+    background: rgba($color-error, 0.1);
+    border: 1px solid rgba($color-error, 0.3);
+    border-radius: $radius-sm;
+    padding: 12px $spacing-md;
+    color: $color-error;
+    font-size: $font-size-sm;
+    margin-bottom: $spacing-lg;
+  }
+
+  &__field {
+    margin-bottom: $spacing-lg;
+  }
+
+  &__label {
+    display: block;
+    font-size: $font-size-sm;
+    font-weight: 500;
+    color: $color-text-secondary;
+    margin-bottom: $spacing-sm;
+  }
+
+  &__input {
+    @include input-field;
+  }
+
+  &__submit {
+    @include button-primary;
+    width: 100%;
+    margin-top: $spacing-sm;
+  }
+
+  &__spinner {
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top-color: white;
+    border-radius: 50%;
+    animation: spin 0.6s linear infinite;
+    margin-right: $spacing-sm;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

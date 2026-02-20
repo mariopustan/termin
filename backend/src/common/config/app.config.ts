@@ -58,6 +58,13 @@ export const apiKeyConfig = registerAs('apiKey', () => ({
   key: process.env.API_KEY || '',
 }));
 
+export const jwtConfig = registerAs('jwt', () => ({
+  secret: process.env.JWT_SECRET || '',
+  expiresIn: process.env.JWT_EXPIRES_IN || '8h',
+  adminEmail: process.env.ADMIN_EMAIL || '',
+  adminPassword: process.env.ADMIN_PASSWORD || '',
+}));
+
 export const slotConfig = registerAs('slot', () => ({
   durationMinutes: 30,
   dayStartHour: 9,

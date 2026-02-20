@@ -1,0 +1,323 @@
+@use 'styles/variables' as *;
+@use 'styles/mixins' as *;
+
+.contact-list {
+  min-height: calc(100vh - 64px);
+  background: $color-bg-gradient;
+  padding: $spacing-xl 0 $spacing-3xl;
+
+  &__container {
+    @include container;
+  }
+
+  // Toolbar
+  &__toolbar {
+    display: flex;
+    align-items: center;
+    gap: $spacing-md;
+    margin-bottom: $spacing-xl;
+
+    @include mobile {
+      flex-direction: column;
+    }
+  }
+
+  &__search {
+    flex: 1;
+  }
+
+  &__search-input {
+    @include input-field;
+    max-width: 500px;
+
+    @include mobile {
+      max-width: 100%;
+    }
+  }
+
+  &__add-btn {
+    @include button-primary;
+    white-space: nowrap;
+    text-decoration: none;
+  }
+
+  // Loading
+  &__loading {
+    @include glass-card;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-md;
+    padding: $spacing-3xl;
+    color: $color-text-muted;
+  }
+
+  &__spinner {
+    width: 24px;
+    height: 24px;
+    border: 3px solid rgba(255, 255, 255, 0.1);
+    border-top-color: $color-orange;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+  }
+
+  // Empty
+  &__empty {
+    @include glass-card;
+    text-align: center;
+    padding: $spacing-3xl;
+    color: $color-text-muted;
+    font-size: $font-size-lg;
+  }
+
+  &__empty-link {
+    display: inline-block;
+    margin-top: $spacing-md;
+    color: $color-orange;
+    text-decoration: none;
+    font-weight: 600;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  // Table (Desktop)
+  &__table-wrap {
+    @include glass-card;
+    overflow-x: auto;
+
+    @include mobile {
+      display: none;
+    }
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th, td {
+      padding: 12px $spacing-md;
+      text-align: left;
+      border-bottom: 1px solid $color-border;
+    }
+
+    th {
+      font-size: $font-size-sm;
+      font-weight: 600;
+      color: $color-text-muted;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    td {
+      font-size: $font-size-sm;
+      color: $color-text-primary;
+    }
+
+    tbody tr {
+      transition: background $duration-fast $easing-default;
+
+      &:hover {
+        background: $color-bg-hover;
+      }
+
+      &:last-child td {
+        border-bottom: none;
+      }
+    }
+  }
+
+  &__name {
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  &__phone {
+    font-family: monospace;
+    font-size: $font-size-sm;
+  }
+
+  &__count {
+    text-align: center;
+  }
+
+  &__date {
+    white-space: nowrap;
+    color: $color-text-muted;
+  }
+
+  &__muted {
+    color: $color-text-muted;
+  }
+
+  &__th-actions {
+    width: 120px;
+  }
+
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-sm;
+  }
+
+  &__btn-edit {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: $radius-sm;
+    background: rgba($color-light-blue, 0.1);
+    color: $color-light-blue;
+    text-decoration: none;
+    font-size: 16px;
+    transition: all $duration-fast $easing-default;
+    border: none;
+    cursor: pointer;
+
+    &:hover {
+      background: rgba($color-light-blue, 0.2);
+    }
+  }
+
+  &__btn-delete {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: $radius-sm;
+    background: rgba($color-error, 0.1);
+    color: $color-error;
+    border: none;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all $duration-fast $easing-default;
+
+    &:hover {
+      background: rgba($color-error, 0.2);
+    }
+  }
+
+  &__confirm-delete {
+    display: flex;
+    align-items: center;
+    gap: $spacing-xs;
+    font-size: $font-size-xs;
+    color: $color-error;
+  }
+
+  &__btn-yes {
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: $color-error;
+    color: white;
+    border: none;
+    cursor: pointer;
+    font-size: $font-size-xs;
+    font-weight: 600;
+  }
+
+  &__btn-no {
+    padding: 4px 8px;
+    border-radius: 4px;
+    background: rgba(255, 255, 255, 0.1);
+    color: $color-text-secondary;
+    border: 1px solid $color-border;
+    cursor: pointer;
+    font-size: $font-size-xs;
+  }
+
+  // Cards (Mobile)
+  &__cards {
+    display: none;
+
+    @include mobile {
+      display: flex;
+      flex-direction: column;
+      gap: $spacing-md;
+    }
+  }
+
+  &__card {
+    @include glass-card;
+    padding: $spacing-md;
+  }
+
+  &__card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: $spacing-sm;
+
+    strong {
+      font-size: $font-size-base;
+      color: $color-text-primary;
+    }
+  }
+
+  &__card-calls {
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 2px 8px;
+    border-radius: $radius-full;
+  }
+
+  &__card-row {
+    font-size: $font-size-sm;
+    color: $color-text-secondary;
+    margin-bottom: 4px;
+  }
+
+  &__card-phone {
+    font-family: monospace;
+    color: $color-light-blue;
+  }
+
+  &__card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: $spacing-sm;
+    padding-top: $spacing-sm;
+    border-top: 1px solid $color-border;
+  }
+
+  &__card-date {
+    font-size: $font-size-xs;
+    color: $color-text-muted;
+  }
+
+  &__card-actions {
+    display: flex;
+    gap: $spacing-sm;
+  }
+
+  // Pagination
+  &__pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-lg;
+    margin-top: $spacing-xl;
+  }
+
+  &__page-btn {
+    @include button-secondary;
+    padding: 8px $spacing-md;
+    min-height: 36px;
+    font-size: $font-size-sm;
+  }
+
+  &__page-info {
+    font-size: $font-size-sm;
+    color: $color-text-muted;
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}

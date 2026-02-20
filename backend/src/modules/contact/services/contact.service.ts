@@ -1,7 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable, Logger, NotFoundException, ConflictException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Repository, ILike } from 'typeorm';
 import { Contact } from '../entities/contact.entity';
+import { CreateContactDto, UpdateContactDto } from '../dto/create-contact.dto';
 
 @Injectable()
 export class ContactService {
@@ -103,5 +104,115 @@ export class ContactService {
     }
 
     return contact;
+  }
+
+  /**
+   * Paginated list of contacts with optional search.
+   */
+  async findAll(
+    search?: string,
+    page = 1,
+    limit = 20,
+  ): Promise<{ data: Contact[]; total: number; page: number; limit: number }> {
+    const skip = (page - 1) * limit;
+
+    const queryBuilder = this.contactRepository.createQueryBuilder('c');
+
+    if (search) {
+      const term = `%${search}%`;
+      queryBuilder.where(
+        'c.first_name ILIKE :term OR c.last_name ILIKE :term OR c.company_name ILIKE :term OR c.email ILIKE :term OR c.phone ILIKE :term',
+        { term },
+      );
+    }
+
+    queryBuilder
+      .orderBy('c.updated_at', 'DESC')
+      .skip(skip)
+      .take(limit);
+
+    const [data, total] = await queryBuilder.getManyAndCount();
+
+    return { data, total, page, limit };
+  }
+
+  /**
+   * Find a single contact by ID.
+   */
+  async findById(id: string): Promise<Contact> {
+    const contact = await this.contactRepository.findOne({ where: { id } });
+    if (!contact) {
+      throw new NotFoundException('Kontakt nicht gefunden.');
+    }
+    return contact;
+  }
+
+  /**
+   * Create a new contact (admin).
+   */
+  async create(dto: CreateContactDto): Promise<Contact> {
+    const normalized = this.normalizePhone(dto.phone);
+
+    const existing = await this.contactRepository.findOne({
+      where: { phone: normalized },
+    });
+    if (existing) {
+      throw new ConflictException(
+        `Ein Kontakt mit der Nummer ${normalized} existiert bereits.`,
+      );
+    }
+
+    const contact = this.contactRepository.create({
+      phone: normalized,
+      firstName: dto.firstName || null,
+      lastName: dto.lastName || null,
+      companyName: dto.companyName || null,
+      email: dto.email || null,
+      callCount: 0,
+    });
+
+    await this.contactRepository.save(contact);
+    this.logger.log(`Admin created contact: ${dto.firstName} ${dto.lastName} (${normalized})`);
+    return contact;
+  }
+
+  /**
+   * Update an existing contact (admin).
+   */
+  async update(id: string, dto: UpdateContactDto): Promise<Contact> {
+    const contact = await this.findById(id);
+
+    if (dto.phone) {
+      const normalized = this.normalizePhone(dto.phone);
+      if (normalized !== contact.phone) {
+        const existing = await this.contactRepository.findOne({
+          where: { phone: normalized },
+        });
+        if (existing && existing.id !== id) {
+          throw new ConflictException(
+            `Ein Kontakt mit der Nummer ${normalized} existiert bereits.`,
+          );
+        }
+        contact.phone = normalized;
+      }
+    }
+
+    if (dto.firstName !== undefined) contact.firstName = dto.firstName || null;
+    if (dto.lastName !== undefined) contact.lastName = dto.lastName || null;
+    if (dto.companyName !== undefined) contact.companyName = dto.companyName || null;
+    if (dto.email !== undefined) contact.email = dto.email || null;
+
+    await this.contactRepository.save(contact);
+    this.logger.log(`Admin updated contact: ${contact.firstName} ${contact.lastName} (${contact.phone})`);
+    return contact;
+  }
+
+  /**
+   * Delete a contact (admin).
+   */
+  async remove(id: string): Promise<void> {
+    const contact = await this.findById(id);
+    await this.contactRepository.remove(contact);
+    this.logger.log(`Admin deleted contact: ${contact.firstName} ${contact.lastName} (${contact.phone})`);
   }
 }

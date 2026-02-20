@@ -1,6 +1,21 @@
-import { Controller, Post, Body, Logger, BadRequestException } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Get,
+  Patch,
+  Delete,
+  Body,
+  Param,
+  Query,
+  Logger,
+  BadRequestException,
+  UseGuards,
+  ParseUUIDPipe,
+} from '@nestjs/common';
 import { ContactService } from '../services/contact.service';
 import { Public } from '../../../common/decorators/public.decorator';
+import { JwtAuthGuard } from '../../auth/guards/jwt-auth.guard';
+import { CreateContactDto, UpdateContactDto } from '../dto/create-contact.dto';
 
 interface WebhookBody {
   fromNumber?: string;
@@ -85,5 +100,49 @@ export class ContactController {
       message: `Kontaktdaten von ${firstName} ${lastName} wurden gespeichert.`,
       contactId: contact.id,
     };
+  }
+
+  // ─── Admin CRUD Endpoints (JWT-protected) ──────────────────────
+
+  @UseGuards(JwtAuthGuard)
+  @Get()
+  async findAll(
+    @Query('search') search?: string,
+    @Query('page') page?: string,
+    @Query('limit') limit?: string,
+  ) {
+    return this.contactService.findAll(
+      search,
+      page ? parseInt(page, 10) : 1,
+      limit ? parseInt(limit, 10) : 20,
+    );
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Get(':id')
+  async findOne(@Param('id', ParseUUIDPipe) id: string) {
+    return this.contactService.findById(id);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Post('create')
+  async create(@Body() dto: CreateContactDto) {
+    return this.contactService.create(dto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch(':id')
+  async update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() dto: UpdateContactDto,
+  ) {
+    return this.contactService.update(id, dto);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id')
+  async remove(@Param('id', ParseUUIDPipe) id: string) {
+    await this.contactService.remove(id);
+    return { message: 'Kontakt wurde gelöscht.' };
   }
 }

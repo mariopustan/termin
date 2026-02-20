@@ -1,0 +1,46 @@
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-card__header">
+      <span class="login-card__icon">&#128274;</span>
+      <h1 class="login-card__title">Admin Login</h1>
+      <p class="login-card__subtitle">Melden Sie sich an, um die Kontakte zu verwalten.</p>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="onSubmit()" novalidate>
+      @if (error) {
+        <div class="login-card__error" role="alert">{{ error }}</div>
+      }
+
+      <div class="login-card__field">
+        <label for="email" class="login-card__label">E-Mail</label>
+        <input
+          id="email"
+          type="email"
+          formControlName="email"
+          class="login-card__input"
+          placeholder="admin@beispiel.de"
+          autocomplete="email" />
+      </div>
+
+      <div class="login-card__field">
+        <label for="password" class="login-card__label">Passwort</label>
+        <input
+          id="password"
+          type="password"
+          formControlName="password"
+          class="login-card__input"
+          placeholder="Passwort eingeben"
+          autocomplete="current-password" />
+      </div>
+
+      <button type="submit" class="login-card__submit" [disabled]="form.invalid || submitting">
+        @if (submitting) {
+          <span class="login-card__spinner"></span>
+          Wird angemeldet...
+        } @else {
+          Anmelden
+        }
+      </button>
+    </form>
+  </div>
+</div>

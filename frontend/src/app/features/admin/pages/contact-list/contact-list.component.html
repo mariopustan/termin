@@ -1,0 +1,119 @@
+<app-admin-header />
+
+<main class="contact-list">
+  <div class="contact-list__container">
+    <div class="contact-list__toolbar">
+      <div class="contact-list__search">
+        <input
+          type="text"
+          class="contact-list__search-input"
+          placeholder="Name, Firma, E-Mail oder Telefon suchen..."
+          [(ngModel)]="search"
+          (ngModelChange)="onSearchChange()" />
+      </div>
+      <a routerLink="/admin/kontakte/neu" class="contact-list__add-btn">+ Neuer Kontakt</a>
+    </div>
+
+    @if (loading) {
+      <div class="contact-list__loading">
+        <div class="contact-list__spinner"></div>
+        <span>Kontakte werden geladen...</span>
+      </div>
+    } @else if (contacts.length === 0) {
+      <div class="contact-list__empty">
+        @if (search) {
+          <p>Keine Kontakte gefunden f&uuml;r &laquo;{{ search }}&raquo;</p>
+        } @else {
+          <p>Noch keine Kontakte vorhanden.</p>
+          <a routerLink="/admin/kontakte/neu" class="contact-list__empty-link">Ersten Kontakt anlegen</a>
+        }
+      </div>
+    } @else {
+      <!-- Desktop: Table -->
+      <div class="contact-list__table-wrap">
+        <table class="contact-list__table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Firma</th>
+              <th>E-Mail</th>
+              <th>Telefon</th>
+              <th>Anrufe</th>
+              <th>Letzter Anruf</th>
+              <th class="contact-list__th-actions">Aktionen</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (contact of contacts; track contact.id) {
+              <tr>
+                <td class="contact-list__name">
+                  {{ contact.firstName || '' }} {{ contact.lastName || '' }}
+                  @if (!contact.firstName && !contact.lastName) {
+                    <span class="contact-list__muted">&mdash;</span>
+                  }
+                </td>
+                <td>{{ contact.companyName || '&mdash;' }}</td>
+                <td>{{ contact.email || '&mdash;' }}</td>
+                <td class="contact-list__phone">{{ contact.phone }}</td>
+                <td class="contact-list__count">{{ contact.callCount }}</td>
+                <td class="contact-list__date">{{ formatDate(contact.lastCallAt) }}</td>
+                <td class="contact-list__actions">
+                  <a [routerLink]="['/admin/kontakte', contact.id]" class="contact-list__btn-edit" title="Bearbeiten">&#9998;</a>
+                  @if (deleteConfirmId === contact.id) {
+                    <span class="contact-list__confirm-delete">
+                      L&ouml;schen?
+                      <button class="contact-list__btn-yes" (click)="deleteContact(contact.id)">Ja</button>
+                      <button class="contact-list__btn-no" (click)="cancelDelete()">Nein</button>
+                    </span>
+                  } @else {
+                    <button class="contact-list__btn-delete" (click)="confirmDelete(contact.id)" title="L&ouml;schen">&#128465;</button>
+                  }
+                </td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Mobile: Cards -->
+      <div class="contact-list__cards">
+        @for (contact of contacts; track contact.id) {
+          <div class="contact-list__card">
+            <div class="contact-list__card-header">
+              <strong>{{ contact.firstName || '' }} {{ contact.lastName || '' }}</strong>
+              <span class="contact-list__card-calls">{{ contact.callCount }} Anrufe</span>
+            </div>
+            @if (contact.companyName) {
+              <div class="contact-list__card-row">{{ contact.companyName }}</div>
+            }
+            @if (contact.email) {
+              <div class="contact-list__card-row contact-list__card-email">{{ contact.email }}</div>
+            }
+            <div class="contact-list__card-row contact-list__card-phone">{{ contact.phone }}</div>
+            <div class="contact-list__card-footer">
+              <span class="contact-list__card-date">{{ formatDate(contact.lastCallAt) }}</span>
+              <div class="contact-list__card-actions">
+                <a [routerLink]="['/admin/kontakte', contact.id]" class="contact-list__btn-edit">&#9998;</a>
+                @if (deleteConfirmId === contact.id) {
+                  <button class="contact-list__btn-yes" (click)="deleteContact(contact.id)">Ja</button>
+                  <button class="contact-list__btn-no" (click)="cancelDelete()">Nein</button>
+                } @else {
+                  <button class="contact-list__btn-delete" (click)="confirmDelete(contact.id)">&#128465;</button>
+                }
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Pagination -->
+      @if (totalPages > 1) {
+        <div class="contact-list__pagination">
+          <button class="contact-list__page-btn" [disabled]="page <= 1" (click)="prevPage()">&laquo; Zur&uuml;ck</button>
+          <span class="contact-list__page-info">Seite {{ page }} von {{ totalPages }} ({{ total }} Kontakte)</span>
+          <button class="contact-list__page-btn" [disabled]="page >= totalPages" (click)="nextPage()">Weiter &raquo;</button>
+        </div>
+      }
+    }
+  </div>
+</main>
