@@ -7,10 +7,12 @@ import {
   HttpCode,
   HttpStatus,
   NotFoundException,
+  UseInterceptors,
 } from '@nestjs/common';
 import { BookingService } from '../services/booking.service';
 import { CreateBookingDto } from '../dto/create-booking.dto';
 import { Public } from '../../../common/decorators/public.decorator';
+import { FonioBodyTransformInterceptor } from '../../../common/interceptors/fonio-body-transform.interceptor';
 import { format } from 'date-fns';
 
 @Controller('bookings')
@@ -19,6 +21,7 @@ export class BookingController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
+  @UseInterceptors(FonioBodyTransformInterceptor)
   async createBooking(@Body() dto: CreateBookingDto) {
     const result = await this.bookingService.createBooking(dto);
 
