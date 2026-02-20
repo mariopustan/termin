@@ -62,6 +62,27 @@ export class SlotPickerComponent implements OnInit {
       icon: 'AI',
       tooltip: 'Zertifiziertes Schulungsprogramm',
     },
+    {
+      id: ProductInterest.SMART_BAV,
+      label: PRODUCT_LABELS[ProductInterest.SMART_BAV],
+      description: PRODUCT_DESCRIPTIONS[ProductInterest.SMART_BAV],
+      icon: 'bAV',
+      tooltip: 'Digitale betriebliche Altersvorsorge',
+    },
+    {
+      id: ProductInterest.STRATEGISCHER_AUSTAUSCH,
+      label: PRODUCT_LABELS[ProductInterest.STRATEGISCHER_AUSTAUSCH],
+      description: PRODUCT_DESCRIPTIONS[ProductInterest.STRATEGISCHER_AUSTAUSCH],
+      icon: '💬',
+      tooltip: 'Persönliches Gespräch mit unserem Management',
+    },
+    {
+      id: ProductInterest.IBS,
+      label: PRODUCT_LABELS[ProductInterest.IBS],
+      description: PRODUCT_DESCRIPTIONS[ProductInterest.IBS],
+      icon: 'IBS',
+      tooltip: 'Bestandsführungssystem für Versicherer',
+    },
   ];
 
   selectedProduct: ProductInterest | null = null;

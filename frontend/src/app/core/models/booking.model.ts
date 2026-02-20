@@ -4,6 +4,9 @@ export enum ProductInterest {
   PORTALE = 'portale',
   PAYROLL_SCANNER = 'payroll_scanner',
   AI_ACT_TRAINING = 'ai_act_training',
+  SMART_BAV = 'smart_bav',
+  STRATEGISCHER_AUSTAUSCH = 'strategischer_austausch',
+  IBS = 'ibs',
 }
 
 export const PRODUCT_LABELS: Record<ProductInterest, string> = {
@@ -12,6 +15,9 @@ export const PRODUCT_LABELS: Record<ProductInterest, string> = {
   [ProductInterest.PORTALE]: 'Mitarbeiter- & Arbeitgeberportal',
   [ProductInterest.PAYROLL_SCANNER]: 'Gehaltsabrechnungs-Scanner',
   [ProductInterest.AI_ACT_TRAINING]: 'EU AI Act Training',
+  [ProductInterest.SMART_BAV]: 'smart!bAV',
+  [ProductInterest.STRATEGISCHER_AUSTAUSCH]: 'Strategischer Austausch',
+  [ProductInterest.IBS]: 'IBS | Insurance Business Server',
 };
 
 export const PRODUCT_DESCRIPTIONS: Record<ProductInterest, string> = {
@@ -25,6 +31,12 @@ export const PRODUCT_DESCRIPTIONS: Record<ProductInterest, string> = {
     'Intelligenter Scanner für Gehaltsabrechnungen',
   [ProductInterest.AI_ACT_TRAINING]:
     'KI-Kompetenzschulung nach EU AI Act Artikel 4',
+  [ProductInterest.SMART_BAV]:
+    'Ökosystem für betriebliche Vorsorge',
+  [ProductInterest.STRATEGISCHER_AUSTAUSCH]:
+    'Nutzen Sie unsere Erfahrung und Nähe zum Markt',
+  [ProductInterest.IBS]:
+    'Plattform für datensouveräne Bestandsverwaltung',
 };
 
 export interface BookingRequest {
