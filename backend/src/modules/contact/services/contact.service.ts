@@ -35,21 +35,23 @@ export class ContactService {
   }
 
   /**
-   * Look up a contact by phone number.
+   * Look up a contact by phone number (checks both phone and phoneMobile).
    */
   async findByPhone(phone: string): Promise<Contact | null> {
     const normalized = this.normalizePhone(phone);
-    return this.contactRepository.findOne({ where: { phone: normalized } });
+    return this.contactRepository.findOne({
+      where: [{ phone: normalized }, { phoneMobile: normalized }],
+    });
   }
 
   /**
    * Track an incoming call: increment callCount and update lastCallAt.
-   * Returns the contact if found, null otherwise.
+   * Checks both phone and phoneMobile. Returns the contact if found, null otherwise.
    */
   async trackCall(phone: string): Promise<Contact | null> {
     const normalized = this.normalizePhone(phone);
     const contact = await this.contactRepository.findOne({
-      where: { phone: normalized },
+      where: [{ phone: normalized }, { phoneMobile: normalized }],
     });
 
     if (!contact) {
@@ -80,7 +82,7 @@ export class ContactService {
   ): Promise<Contact> {
     const normalized = this.normalizePhone(phone);
     let contact = await this.contactRepository.findOne({
-      where: { phone: normalized },
+      where: [{ phone: normalized }, { phoneMobile: normalized }],
     });
 
     if (contact) {
@@ -121,7 +123,7 @@ export class ContactService {
     if (search) {
       const term = `%${search}%`;
       queryBuilder.where(
-        'c.first_name ILIKE :term OR c.last_name ILIKE :term OR c.company_name ILIKE :term OR c.email ILIKE :term OR c.phone ILIKE :term',
+        'c.first_name ILIKE :term OR c.last_name ILIKE :term OR c.company_name ILIKE :term OR c.email ILIKE :term OR c.phone ILIKE :term OR c.phone_mobile ILIKE :term',
         { term },
       );
     }
@@ -162,8 +164,11 @@ export class ContactService {
       );
     }
 
+    const normalizedMobile = dto.phoneMobile ? this.normalizePhone(dto.phoneMobile) : null;
+
     const contact = this.contactRepository.create({
       phone: normalized,
+      phoneMobile: normalizedMobile,
       firstName: dto.firstName || null,
       lastName: dto.lastName || null,
       companyName: dto.companyName || null,
@@ -195,6 +200,10 @@ export class ContactService {
         }
         contact.phone = normalized;
       }
+    }
+
+    if (dto.phoneMobile !== undefined) {
+      contact.phoneMobile = dto.phoneMobile ? this.normalizePhone(dto.phoneMobile) : null;
     }
 
     if (dto.firstName !== undefined) contact.firstName = dto.firstName || null;

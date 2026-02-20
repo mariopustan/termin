@@ -16,6 +16,9 @@ export class Contact {
   @Column({ type: 'varchar', length: 20, unique: true })
   phone!: string;
 
+  @Column({ type: 'varchar', length: 20, nullable: true, unique: true, name: 'phone_mobile' })
+  phoneMobile!: string | null;
+
   @Column({ type: 'varchar', length: 100, nullable: true, name: 'first_name' })
   firstName!: string | null;
 

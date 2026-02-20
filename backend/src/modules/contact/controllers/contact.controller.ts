@@ -65,6 +65,8 @@ export class ContactController {
       lastName: contact.lastName,
       companyName: contact.companyName,
       email: contact.email,
+      phone: contact.phone,
+      phoneMobile: contact.phoneMobile,
       callCount: contact.callCount,
     };
   }

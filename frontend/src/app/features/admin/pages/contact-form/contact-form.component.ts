@@ -33,6 +33,7 @@ export class ContactFormComponent implements OnInit {
   ngOnInit(): void {
     this.form = this.fb.group({
       phone: ['', [Validators.required, Validators.maxLength(20)]],
+      phoneMobile: ['', [Validators.maxLength(20)]],
       firstName: ['', [Validators.maxLength(100)]],
       lastName: ['', [Validators.maxLength(100)]],
       companyName: ['', [Validators.maxLength(200)]],
@@ -54,6 +55,7 @@ export class ContactFormComponent implements OnInit {
         this.contact = contact;
         this.form.patchValue({
           phone: contact.phone,
+          phoneMobile: contact.phoneMobile || '',
           firstName: contact.firstName || '',
           lastName: contact.lastName || '',
           companyName: contact.companyName || '',
@@ -107,6 +109,7 @@ export class ContactFormComponent implements OnInit {
         required: 'Telefonnummer ist erforderlich',
         maxlength: 'Maximal 20 Zeichen',
       },
+      phoneMobile: { maxlength: 'Maximal 20 Zeichen' },
       firstName: { maxlength: 'Maximal 100 Zeichen' },
       lastName: { maxlength: 'Maximal 100 Zeichen' },
       companyName: { maxlength: 'Maximal 200 Zeichen' },

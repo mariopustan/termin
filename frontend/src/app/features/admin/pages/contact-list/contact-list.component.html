@@ -37,7 +37,8 @@
               <th>Name</th>
               <th>Firma</th>
               <th>E-Mail</th>
-              <th>Telefon</th>
+              <th>Festnetz</th>
+              <th>Mobil</th>
               <th>Anrufe</th>
               <th>Letzter Anruf</th>
               <th class="contact-list__th-actions">Aktionen</th>
@@ -55,6 +56,7 @@
                 <td>{{ contact.companyName || '&mdash;' }}</td>
                 <td>{{ contact.email || '&mdash;' }}</td>
                 <td class="contact-list__phone">{{ contact.phone }}</td>
+                <td class="contact-list__phone">{{ contact.phoneMobile || '—' }}</td>
                 <td class="contact-list__count">{{ contact.callCount }}</td>
                 <td class="contact-list__date">{{ formatDate(contact.lastCallAt) }}</td>
                 <td class="contact-list__actions">
@@ -89,7 +91,10 @@
             @if (contact.email) {
               <div class="contact-list__card-row contact-list__card-email">{{ contact.email }}</div>
             }
-            <div class="contact-list__card-row contact-list__card-phone">{{ contact.phone }}</div>
+            <div class="contact-list__card-row contact-list__card-phone">Festnetz: {{ contact.phone }}</div>
+            @if (contact.phoneMobile) {
+              <div class="contact-list__card-row contact-list__card-phone">Mobil: {{ contact.phoneMobile }}</div>
+            }
             <div class="contact-list__card-footer">
               <span class="contact-list__card-date">{{ formatDate(contact.lastCallAt) }}</span>
               <div class="contact-list__card-actions">

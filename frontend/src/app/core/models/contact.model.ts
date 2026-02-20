@@ -1,6 +1,7 @@
 export interface Contact {
   id: string;
   phone: string;
+  phoneMobile: string | null;
   firstName: string | null;
   lastName: string | null;
   companyName: string | null;
@@ -20,6 +21,7 @@ export interface ContactListResponse {
 
 export interface ContactRequest {
   phone: string;
+  phoneMobile?: string;
   firstName?: string;
   lastName?: string;
   companyName?: string;

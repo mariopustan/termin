@@ -14,6 +14,11 @@ export class CreateContactDto {
 
   @IsOptional()
   @IsString()
+  @MaxLength(20)
+  phoneMobile?: string;
+
+  @IsOptional()
+  @IsString()
   @MaxLength(100)
   firstName?: string;
 
@@ -38,6 +43,11 @@ export class UpdateContactDto {
   @IsString()
   @MaxLength(20)
   phone?: string;
+
+  @IsOptional()
+  @IsString()
+  @MaxLength(20)
+  phoneMobile?: string;
 
   @IsOptional()
   @IsString()
