@@ -231,6 +231,14 @@ export class SlotPickerComponent implements OnInit {
               totalAvailable: 0,
             };
           });
+
+          // Auto-advance to next week if no slots available
+          const totalSlots = this.weekDays.reduce((sum, day) => sum + day.totalAvailable, 0);
+          if (totalSlots === 0 && this.canGoNext()) {
+            this.currentWeekStart = addDays(this.currentWeekStart, 7);
+            this.loadWeekSlots();
+            return;
+          }
         } catch (e) {
           console.error('Error processing slots response:', e);
           this.error = 'Fehler beim Verarbeiten der Termine.';
