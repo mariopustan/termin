@@ -5,6 +5,7 @@ import {
   BadRequestException,
 } from '@nestjs/common';
 import { parseISO, isValid, addDays, format, eachDayOfInterval } from 'date-fns';
+import { formatInTimeZone } from 'date-fns-tz';
 import { SlotCalculatorService } from '../services/slot-calculator.service';
 import { CalendarSyncScheduler } from '../../calendar-sync/services/calendar-sync.scheduler';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -67,14 +68,14 @@ export class SlotsController {
   }
 
   @Get('available')
-  async getAvailableSlots(): Promise<SlotsRangeResponse> {
+  async getAvailableSlots() {
+    const tz = 'Europe/Berlin';
     const today = new Date();
-    const fromDate = today;
     const toDate = addDays(today, 7);
 
     const busyPeriods = await this.calendarSync.getBusyPeriods();
 
-    const rangeStart = new Date(format(fromDate, 'yyyy-MM-dd') + 'T00:00:00');
+    const rangeStart = new Date(format(today, 'yyyy-MM-dd') + 'T00:00:00');
     const rangeEnd = new Date(format(toDate, 'yyyy-MM-dd') + 'T23:59:59');
 
     const existingBookings = await this.bookingRepository.find({
@@ -84,22 +85,25 @@ export class SlotsController {
       },
     });
 
-    const days = eachDayOfInterval({ start: fromDate, end: toDate });
+    const days = eachDayOfInterval({ start: today, end: toDate });
 
-    const allDaySlots: DaySlots[] = days
-      .map((day) =>
-        this.slotCalculator.calculateAvailableSlots(day, busyPeriods, existingBookings),
-      )
-      .filter((day) => day.totalAvailable > 0);
+    const options: { day: string; time: string; slotStart: string }[] = [];
+
+    for (const day of days) {
+      const daySlots = this.slotCalculator.calculateAvailableSlots(day, busyPeriods, existingBookings);
+      for (const slot of daySlots.slots) {
+        options.push({
+          day: formatInTimeZone(slot.start, tz, 'EEEE, dd. MMMM yyyy'),
+          time: formatInTimeZone(slot.start, tz, 'HH:mm') + ' Uhr',
+          slotStart: slot.start.toISOString(),
+        });
+      }
+      if (options.length >= 9) break;
+    }
 
     return {
-      data: allDaySlots,
-      meta: {
-        lastSyncAt: this.calendarSync.getLastSyncAt()?.toISOString() || null,
-        timezone: 'Europe/Berlin',
-        from: format(fromDate, 'yyyy-MM-dd'),
-        to: format(toDate, 'yyyy-MM-dd'),
-      },
+      hinweis: 'Nenne dem Anrufer 2-3 Optionen. Verwende slotStart exakt so beim Buchen.',
+      termine: options.slice(0, 9),
     };
   }
 
