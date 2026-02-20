@@ -6,6 +6,7 @@ import {
 } from '@nestjs/common';
 import { parseISO, isValid, addDays, format, eachDayOfInterval } from 'date-fns';
 import { formatInTimeZone } from 'date-fns-tz';
+import { de } from 'date-fns/locale';
 import { SlotCalculatorService } from '../services/slot-calculator.service';
 import { CalendarSyncScheduler } from '../../calendar-sync/services/calendar-sync.scheduler';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -93,7 +94,7 @@ export class SlotsController {
       const daySlots = this.slotCalculator.calculateAvailableSlots(day, busyPeriods, existingBookings);
       for (const slot of daySlots.slots) {
         options.push({
-          day: formatInTimeZone(slot.start, tz, 'EEEE, dd. MMMM yyyy'),
+          day: formatInTimeZone(slot.start, tz, 'EEEE, dd. MMMM yyyy', { locale: de }),
           time: formatInTimeZone(slot.start, tz, 'HH:mm') + ' Uhr',
           slotStart: slot.start.toISOString(),
         });
