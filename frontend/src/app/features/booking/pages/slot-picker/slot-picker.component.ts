@@ -73,7 +73,7 @@ export class SlotPickerComponent implements OnInit {
       id: ProductInterest.STRATEGISCHER_AUSTAUSCH,
       label: PRODUCT_LABELS[ProductInterest.STRATEGISCHER_AUSTAUSCH],
       description: PRODUCT_DESCRIPTIONS[ProductInterest.STRATEGISCHER_AUSTAUSCH],
-      icon: 'Talk',
+      icon: 'Value',
       tooltip: 'Persönliches Gespräch mit unserem Management',
     },
     {
