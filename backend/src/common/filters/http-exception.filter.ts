@@ -25,6 +25,8 @@ export class GlobalExceptionFilter implements ExceptionFilter {
     let message = 'Ein interner Fehler ist aufgetreten.';
     let code = 'INTERNAL_ERROR';
 
+    let details: string[] | undefined;
+
     if (exception instanceof HttpException) {
       status = exception.getStatus();
       const exceptionResponse = exception.getResponse();
@@ -34,7 +36,11 @@ export class GlobalExceptionFilter implements ExceptionFilter {
         const resp = exceptionResponse as Record<string, unknown>;
         message = (resp['message'] as string) || message;
         code = (resp['code'] as string) || this.statusToCode(status);
+        if (Array.isArray(resp['details'])) {
+          details = resp['details'] as string[];
+        }
       }
+    } else {
       code = this.statusToCode(status);
     }
 
@@ -45,20 +51,29 @@ export class GlobalExceptionFilter implements ExceptionFilter {
       );
     } else {
       this.logger.warn(
-        `[${correlationId}] ${request.method} ${request.url} - ${status}: ${message}`,
+        `[${correlationId}] ${request.method} ${request.url} - ${status}: ${message}${details ? ' | ' + JSON.stringify(details) : ''}`,
       );
+      if (status === 400 && request.body) {
+        this.logger.debug(
+          `[${correlationId}] Request body: ${JSON.stringify(request.body)}`,
+        );
+      }
     }
 
-    response.status(status).json({
-      error: {
-        code,
-        message,
-        status,
-        correlationId,
-        timestamp: new Date().toISOString(),
-        path: request.url,
-      },
-    });
+    const errorResponse: Record<string, unknown> = {
+      code,
+      message,
+      status,
+      correlationId,
+      timestamp: new Date().toISOString(),
+      path: request.url,
+    };
+
+    if (details) {
+      errorResponse['details'] = details;
+    }
+
+    response.status(status).json({ error: errorResponse });
   }
 
   private statusToCode(status: number): string {
