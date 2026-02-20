@@ -27,6 +27,11 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets/tracking",
+                "output": "assets/tracking"
               }
             ],
             "polyfills": [
