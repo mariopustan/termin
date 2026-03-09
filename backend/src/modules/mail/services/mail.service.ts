@@ -12,6 +12,9 @@ const PRODUCT_LABELS: Record<ProductInterest, string> = {
   [ProductInterest.PORTALE]: 'Mitarbeiter- & Arbeitgeberportal',
   [ProductInterest.PAYROLL_SCANNER]: 'Gehaltsabrechnungs-Scanner',
   [ProductInterest.AI_ACT_TRAINING]: 'EU AI Act Training',
+  [ProductInterest.SMART_BAV]: 'smart!bAV',
+  [ProductInterest.STRATEGISCHER_AUSTAUSCH]: 'Strategischer Austausch',
+  [ProductInterest.IBS]: 'IBS | Insurance Business Server',
 };
 
 export interface BookingConfirmationData {

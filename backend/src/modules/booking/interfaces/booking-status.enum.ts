@@ -11,4 +11,7 @@ export enum ProductInterest {
   PORTALE = 'portale',
   PAYROLL_SCANNER = 'payroll_scanner',
   AI_ACT_TRAINING = 'ai_act_training',
+  SMART_BAV = 'smart_bav',
+  STRATEGISCHER_AUSTAUSCH = 'strategischer_austausch',
+  IBS = 'ibs',
 }
