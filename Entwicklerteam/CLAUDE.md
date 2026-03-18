@@ -324,5 +324,7 @@ Alle Oberflächen der IT Warehouse AG / smart!Cloud Services AG folgen diesen Vo
 - **Rechenzentrum:** akquinet GmbH, Hamburg – TÜV IT TSI Level 3 (erweitert)
 - **Datenhaltung:** Ausschließlich Deutschland
 - **Zertifizierungen:** BSI-Grundschutz Baustein 1.5, TÜV IT TSI Level 3
-- **Server:** Hetzner (für smart!GRC und weitere Services)
+- **Server:** Hetzner Cloud (46.224.176.236, Nuremberg DC3)
+- **SSH-Zugang:** `ssh deploy@46.224.176.236` (Root-Login ist deaktiviert, sudo via deploy-User)
+- **Fail2Ban-Whitelist:** 94.31.110.0/24 (Büro-IP-Range)
 - **Mandantentrennung:** Strikte Isolation zwischen Maklerhäusern (40+)
