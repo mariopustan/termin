@@ -15,6 +15,7 @@ const PRODUCT_LABELS: Record<ProductInterest, string> = {
   [ProductInterest.SMART_BAV]: 'smart!bAV',
   [ProductInterest.STRATEGISCHER_AUSTAUSCH]: 'Strategischer Austausch',
   [ProductInterest.IBS]: 'IBS | Insurance Business Server',
+  [ProductInterest.NACHWEIS_AWARENESS]: 'Nachweis- & Awareness-Plattform',
 };
 
 export interface BookingConfirmationData {

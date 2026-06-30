@@ -83,6 +83,13 @@ export class SlotPickerComponent implements OnInit {
       icon: 'IBS',
       tooltip: 'Bestandsführungssystem für Versicherer',
     },
+    {
+      id: ProductInterest.NACHWEIS_AWARENESS,
+      label: PRODUCT_LABELS[ProductInterest.NACHWEIS_AWARENESS],
+      description: PRODUCT_DESCRIPTIONS[ProductInterest.NACHWEIS_AWARENESS],
+      icon: 'Audit',
+      tooltip: 'Revisionssichere Nachweispflicht nach DSGVO, DORA, NIS-2 & KI-VO',
+    },
   ];
 
   selectedProduct: ProductInterest | null = null;

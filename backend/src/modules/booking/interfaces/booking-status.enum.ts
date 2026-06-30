@@ -14,4 +14,5 @@ export enum ProductInterest {
   SMART_BAV = 'smart_bav',
   STRATEGISCHER_AUSTAUSCH = 'strategischer_austausch',
   IBS = 'ibs',
+  NACHWEIS_AWARENESS = 'nachweis_awareness',
 }

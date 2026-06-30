@@ -7,6 +7,7 @@ export enum ProductInterest {
   SMART_BAV = 'smart_bav',
   STRATEGISCHER_AUSTAUSCH = 'strategischer_austausch',
   IBS = 'ibs',
+  NACHWEIS_AWARENESS = 'nachweis_awareness',
 }
 
 export const PRODUCT_LABELS: Record<ProductInterest, string> = {
@@ -18,6 +19,7 @@ export const PRODUCT_LABELS: Record<ProductInterest, string> = {
   [ProductInterest.SMART_BAV]: 'smart!bAV',
   [ProductInterest.STRATEGISCHER_AUSTAUSCH]: 'Strategischer Austausch',
   [ProductInterest.IBS]: 'IBS | Insurance Business Server',
+  [ProductInterest.NACHWEIS_AWARENESS]: 'Nachweis- & Awareness-Plattform',
 };
 
 export const PRODUCT_DESCRIPTIONS: Record<ProductInterest, string> = {
@@ -37,6 +39,8 @@ export const PRODUCT_DESCRIPTIONS: Record<ProductInterest, string> = {
     'Nutzen Sie unsere Erfahrung und Nähe zum Markt',
   [ProductInterest.IBS]:
     'Plattform für datensouveräne Bestandsverwaltung',
+  [ProductInterest.NACHWEIS_AWARENESS]:
+    'Revisionssichere Nachweise & Awareness nach DSGVO, DORA, NIS-2 & KI-VO',
 };
 
 export interface BookingRequest {
