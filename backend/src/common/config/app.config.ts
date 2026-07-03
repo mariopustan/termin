@@ -73,4 +73,7 @@ export const slotConfig = registerAs('slot', () => ({
   dayEndMinute: 0,
   minAdvanceHours: parseInt(process.env.SLOT_MIN_ADVANCE_HOURS || '2', 10),
   maxAdvanceDays: parseInt(process.env.SLOT_MAX_ADVANCE_DAYS || '14', 10),
+  // Frühestes buchbares Datum (YYYY-MM-DD), z.B. wegen Urlaub.
+  // Liegt das Datum in der Vergangenheit, hat es keine Wirkung (selbstheilend).
+  earliestBookingDate: process.env.SLOT_EARLIEST_BOOKING_DATE || '2026-07-27',
 }));

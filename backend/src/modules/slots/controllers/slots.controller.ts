@@ -71,7 +71,9 @@ export class SlotsController {
   @Get('available')
   async getAvailableSlots() {
     const tz = 'Europe/Berlin';
-    const today = new Date();
+    // Suche ab dem frühesten buchbaren Datum (z.B. nach Urlaubssperre)
+    const earliestStr = this.slotCalculator.getEarliestBookingDateStr();
+    const today = new Date(earliestStr + 'T00:00:00');
     const toDate = addDays(today, 7);
 
     const busyPeriods = await this.calendarSync.getBusyPeriods();
@@ -126,20 +128,14 @@ export class SlotsController {
       throw new BadRequestException('Ungültiges Datumsformat');
     }
 
-    // Clamp fromDate to today if it's in the past (e.g. when requesting current week)
-    const today = new Date();
-    const todayStr = format(today, 'yyyy-MM-dd');
-    if (format(fromDate, 'yyyy-MM-dd') < todayStr) {
-      fromDate = parseISO(todayStr);
+    // Clamp fromDate to earliest booking date (today or vacation block)
+    const earliestStr = this.slotCalculator.getEarliestBookingDateStr();
+    if (format(fromDate, 'yyyy-MM-dd') < earliestStr) {
+      fromDate = parseISO(earliestStr);
     }
 
-    if (!this.slotCalculator.isDateInRange(toDate)) {
-      throw new BadRequestException(
-        'Der Zeitraum liegt außerhalb des buchbaren Bereichs',
-      );
-    }
-
-    // If fromDate is now after toDate, return empty
+    // If fromDate is now after toDate (e.g. range entirely before earliest
+    // booking date), return empty instead of erroring
     if (format(fromDate, 'yyyy-MM-dd') > format(toDate, 'yyyy-MM-dd')) {
       return {
         data: [],
@@ -150,6 +146,12 @@ export class SlotsController {
           to: toStr,
         },
       };
+    }
+
+    if (!this.slotCalculator.isDateInRange(toDate)) {
+      throw new BadRequestException(
+        'Der Zeitraum liegt außerhalb des buchbaren Bereichs',
+      );
     }
 
     const days = eachDayOfInterval({ start: fromDate, end: toDate });

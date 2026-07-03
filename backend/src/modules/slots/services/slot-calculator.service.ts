@@ -39,6 +39,7 @@ export class SlotCalculatorService {
   private readonly dayEndMinute: number;
   private readonly minAdvanceHours: number;
   private readonly maxAdvanceDays: number;
+  private readonly earliestBookingDate: string;
 
   constructor(private readonly configService: ConfigService) {
     this.slotDuration = this.configService.get<number>('slot.durationMinutes', 30);
@@ -48,6 +49,21 @@ export class SlotCalculatorService {
     this.dayEndMinute = this.configService.get<number>('slot.dayEndMinute', 0);
     this.minAdvanceHours = this.configService.get<number>('slot.minAdvanceHours', 2);
     this.maxAdvanceDays = this.configService.get<number>('slot.maxAdvanceDays', 14);
+    this.earliestBookingDate = this.configService.get<string>('slot.earliestBookingDate', '');
+  }
+
+  /**
+   * Frühestes buchbares Datum als 'yyyy-MM-dd'.
+   * Maximum aus "heute" und dem konfigurierten earliestBookingDate
+   * (z.B. Urlaubssperre). Liegt das konfigurierte Datum in der
+   * Vergangenheit, wirkt automatisch wieder "heute" (selbstheilend).
+   */
+  getEarliestBookingDateStr(): string {
+    const todayStr = format(new Date(), 'yyyy-MM-dd');
+    if (this.earliestBookingDate && this.earliestBookingDate > todayStr) {
+      return this.earliestBookingDate;
+    }
+    return todayStr;
   }
 
   calculateAvailableSlots(
@@ -57,6 +73,16 @@ export class SlotCalculatorService {
   ): DaySlots {
     const dateStr = format(date, 'yyyy-MM-dd');
     const dayOfWeek = getDay(date);
+
+    // Blocked before earliest booking date (e.g. vacation)
+    if (dateStr < this.getEarliestBookingDateStr()) {
+      return {
+        date: dateStr,
+        dayOfWeek: DAY_NAMES_DE[dayOfWeek],
+        slots: [],
+        totalAvailable: 0,
+      };
+    }
 
     // Weekend check
     if (dayOfWeek === 0 || dayOfWeek === 6) {
@@ -233,14 +259,16 @@ export class SlotCalculatorService {
   }
 
   isDateInRange(date: Date): boolean {
-    const now = new Date();
-    const maxDate = new Date();
+    const earliestStr = this.getEarliestBookingDateStr();
+
+    // maxAdvanceDays zählt ab dem frühesten buchbaren Datum,
+    // damit das Buchungsfenster nach einer Sperre (Urlaub) nicht leer ist.
+    const maxDate = new Date(earliestStr + 'T12:00:00');
     maxDate.setDate(maxDate.getDate() + this.maxAdvanceDays);
 
     const dateStr = format(date, 'yyyy-MM-dd');
-    const todayStr = format(now, 'yyyy-MM-dd');
     const maxStr = format(maxDate, 'yyyy-MM-dd');
 
-    return dateStr >= todayStr && dateStr <= maxStr;
+    return dateStr >= earliestStr && dateStr <= maxStr;
   }
 }

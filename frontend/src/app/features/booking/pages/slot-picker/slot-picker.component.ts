@@ -10,6 +10,21 @@ import {
   PRODUCT_DESCRIPTIONS,
 } from '../../../../core/models/booking.model';
 import { DaySlots, TimeSlot } from '../../../../core/models/time-slot.model';
+
+/**
+ * Frühestes buchbares Datum (Urlaubssperre). Muss mit dem Backend
+ * (SLOT_EARLIEST_BOOKING_DATE) übereinstimmen. Liegt das Datum in der
+ * Vergangenheit, hat es keine Wirkung (selbstheilend).
+ */
+const EARLIEST_BOOKING_DATE = '2026-07-27';
+
+/** Heute oder EARLIEST_BOOKING_DATE – je nachdem, was später ist. */
+function effectiveStartDate(): Date {
+  const earliest = new Date(EARLIEST_BOOKING_DATE + 'T12:00:00');
+  const today = new Date();
+  return earliest > today ? earliest : today;
+}
+
 interface ProductCard {
   id: ProductInterest;
   label: string;
@@ -107,11 +122,8 @@ export class SlotPickerComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const today = new Date();
-    this.currentWeekStart = startOfWeek(today, { weekStartsOn: 1 });
-    if (today > this.currentWeekStart) {
-      this.currentWeekStart = startOfWeek(today, { weekStartsOn: 1 });
-    }
+    const start = effectiveStartDate();
+    this.currentWeekStart = startOfWeek(start, { weekStartsOn: 1 });
 
     // Auto-select product from query parameter (e.g. ?product=ai_act_training)
     const productParam = this.route.snapshot.queryParams['product'];
@@ -128,8 +140,8 @@ export class SlotPickerComponent implements OnInit {
 
   previousWeek(): void {
     const prevStart = addDays(this.currentWeekStart, -7);
-    const today = startOfWeek(new Date(), { weekStartsOn: 1 });
-    if (prevStart >= today) {
+    const minWeek = startOfWeek(effectiveStartDate(), { weekStartsOn: 1 });
+    if (prevStart >= minWeek) {
       this.currentWeekStart = prevStart;
       this.loadWeekSlots();
     }
@@ -137,7 +149,7 @@ export class SlotPickerComponent implements OnInit {
 
   nextWeek(): void {
     const nextStart = addDays(this.currentWeekStart, 7);
-    const maxDate = addDays(new Date(), 14);
+    const maxDate = addDays(effectiveStartDate(), 14);
     if (nextStart <= maxDate) {
       this.currentWeekStart = nextStart;
       this.loadWeekSlots();
@@ -146,13 +158,13 @@ export class SlotPickerComponent implements OnInit {
 
   canGoPrevious(): boolean {
     const prevStart = addDays(this.currentWeekStart, -7);
-    const today = startOfWeek(new Date(), { weekStartsOn: 1 });
-    return prevStart >= today;
+    const minWeek = startOfWeek(effectiveStartDate(), { weekStartsOn: 1 });
+    return prevStart >= minWeek;
   }
 
   canGoNext(): boolean {
     const nextStart = addDays(this.currentWeekStart, 7);
-    const maxDate = addDays(new Date(), 14);
+    const maxDate = addDays(effectiveStartDate(), 14);
     return nextStart <= maxDate;
   }
 
