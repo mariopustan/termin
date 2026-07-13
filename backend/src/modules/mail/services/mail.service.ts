@@ -91,6 +91,13 @@ export class MailService {
       durationMinutes: 30,
       description: `Zoom-Meeting: ${data.zoomJoinUrl}`,
       location: data.zoomJoinUrl,
+      uid: `salesfunnel-${data.cancellationToken}@demo-itw.de`,
+      organizerName: 'IT Warehouse AG',
+      // Organizer = monitored inbox so the attendee's acceptance (iMIP REPLY)
+      // is delivered to us; falls back to the sender address if unset.
+      organizerEmail: this.internalRecipient || this.fromAddress,
+      attendeeName: `${data.firstName} ${data.lastName}`.trim(),
+      attendeeEmail: data.to,
     });
 
     const html = this.buildConfirmationEmail(
@@ -489,6 +496,11 @@ export class MailService {
     durationMinutes: number;
     description: string;
     location: string;
+    uid: string;
+    organizerName: string;
+    organizerEmail: string;
+    attendeeName: string;
+    attendeeEmail: string;
   }): string {
     const end = new Date(
       params.start.getTime() + params.durationMinutes * 60 * 1000,
@@ -500,6 +512,14 @@ export class MailService {
         .replace(/[-:]/g, '')
         .replace(/\.\d{3}/, '');
 
+    // Escape special characters per RFC 5545 (backslash, semicolon, comma, newline).
+    const escapeText = (value: string): string =>
+      value
+        .replace(/\\/g, '\\\\')
+        .replace(/;/g, '\\;')
+        .replace(/,/g, '\\,')
+        .replace(/\r?\n/g, '\\n');
+
     return [
       'BEGIN:VCALENDAR',
       'VERSION:2.0',
@@ -507,13 +527,16 @@ export class MailService {
       'CALSCALE:GREGORIAN',
       'METHOD:REQUEST',
       'BEGIN:VEVENT',
-      `UID:salesfunnel-${Date.now()}@demo-itw.de`,
+      `UID:${params.uid}`,
+      `DTSTAMP:${formatICSDate(new Date())}`,
       `DTSTART:${formatICSDate(params.start)}`,
       `DTEND:${formatICSDate(end)}`,
-      `SUMMARY:${params.summary}`,
-      `DESCRIPTION:${params.description}`,
-      `LOCATION:${params.location}`,
-      `DTSTAMP:${formatICSDate(new Date())}`,
+      `ORGANIZER;CN=${escapeText(params.organizerName)}:mailto:${params.organizerEmail}`,
+      `ATTENDEE;CN=${escapeText(params.attendeeName)};ROLE=REQ-PARTICIPANT;PARTSTAT=NEEDS-ACTION;RSVP=TRUE:mailto:${params.attendeeEmail}`,
+      `SUMMARY:${escapeText(params.summary)}`,
+      `DESCRIPTION:${escapeText(params.description)}`,
+      `LOCATION:${escapeText(params.location)}`,
+      'SEQUENCE:0',
       'STATUS:CONFIRMED',
       'END:VEVENT',
       'END:VCALENDAR',
